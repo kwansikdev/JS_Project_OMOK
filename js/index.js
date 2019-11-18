@@ -75,7 +75,7 @@ const checkHorizon = (id, checkNum) => {
   let blockNum = 1;
   if (state === 1) blockNum = 2;
   let count = 1;
-  if (checkNum === 5) { 
+  if (checkNum === 5) {
     for (let i = 1; position(id, i, 0) === state; i++) count++;
     for (let i = 1; position(id, -i, 0) === state; i++) count++;
   } else {
@@ -140,7 +140,7 @@ const check3X3 = (id) => {
     return pre;
   }, 0);
 
-  if (checkNum3 >= 2) return 1; 
+  if (checkNum3 >= 2) return 1;
   if (checkNum4 >= 2) return 2;
 };
 
@@ -187,5 +187,31 @@ function init() {
 }
 
 document.querySelector('.btn-new').addEventListener('click', init);
+
+// POPUP UI
+const popupclose = () => {
+  $startPopup.style.display = 'none';
+  $overlay.style.display = 'none';
+}
+
+const $startPopup = document.querySelector('.start-popup');
+const $overlay = document.querySelector('.overlay');
+
+const $player1Name = document.querySelector('.player1-name');
+const $player2Name = document.querySelector('.player2-name');
+const $startBtn = document.querySelector('.start-button');
+const $panelName1 = document.querySelector('.player-1-panel > .player-name');
+const $panelName2 = document.querySelector('.player-2-panel > .player-name');
+
+$startBtn.onclick = ({target}) => {
+  const player1Name = $player1Name.value.trim();
+  const player2Name = $player2Name.value.trim();
+
+  if (player1Name === '' || player2Name === '') return;
+
+  popupclose();
+  $panelName1.textContent = player1Name;
+  $panelName2.textContent = player2Name;
+};
 
 window.onload = render;
