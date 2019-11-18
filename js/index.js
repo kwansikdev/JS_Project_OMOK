@@ -63,7 +63,7 @@ const checkHorizon = (id, checkNum) => {
   let blockNum = 1;
   if (state === 1) blockNum = 2;
   let count = 1;
-  if (checkNum === 5) { 
+  if (checkNum === 5) {
     for (let i = 1; position(id, i, 0) === state; i++) count++;
     for (let i = 1; position(id, -i, 0) === state; i++) count++;
   } else {
