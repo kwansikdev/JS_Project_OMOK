@@ -120,7 +120,7 @@ const checkVictory = (id) => {
   checkArr.push(checkHorizon(id, 5));
   checkArr.push(checkVertical(id, 5));
 
-  if (checkArr.indexOf(5) !== -1) console.log('victory');
+  if (checkArr.indexOf(5) !== -1) {return endingPopup()};
 };
 
 const check3X3 = (id) => {
@@ -213,5 +213,17 @@ $startBtn.onclick = ({target}) => {
   $panelName1.textContent = player1Name;
   $panelName2.textContent = player2Name;
 };
+
+// Ending-popup
+
+const $endingPopup = document.querySelector('.ending-popup');
+const $victoryYes = document.querySelector('.victory-yes');
+const $victoryNo = document.querySelector('.victory-no');
+
+const endingPopup = () => {
+  $endingPopup.style.visibility = 'visible';
+}
+
+$victoryNo.addEventListener('click', init);
 
 window.onload = render;
