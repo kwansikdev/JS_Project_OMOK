@@ -157,7 +157,7 @@ main {
   border: none;
 }
 
-.modal {
+.ending-popup {
   margin: 0 auto;
   background-color: rgba(255, 255, 255, .5);
   position: absolute;
@@ -168,14 +168,7 @@ main {
   vertical-align: center;
   z-index: 2;
   left: calc(50% - 380px);
-  /* visibility: hidden; */
-}
-
-.close-button {
-  width: 40px;
-  height: 40px;
-  font-size: 25px;
-
+  visibility: hidden;
 }
 
 footer {
