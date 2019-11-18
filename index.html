@@ -7,22 +7,47 @@
   <title>Document</title>
   <link rel="stylesheet" href="css/style.css">
   <script defer src="js/index.js"></script>
+  <link rel="shortcut icon" href="image/favicon.png">
 </head>
 <body>
   <header>
+    <div class="start-popup">
+      <p class="player1">
+        <span>선공</span>
+        <input type="text" class="player1-name" placeholder="Enter player1-name">
+      </p>
+
+      <p class="player2">
+        <span>후공</span>
+        <input type="text" class="player2-name" placeholder="Enter player2-name">
+      </p>
+
+      <button class="start-button">Start</button>
+    </div>
+    <div class="overlay"></div>
     <button class="btn-new">판 엎자</button>
   </header>
   <main>
 
-      <div class="player-1-panel active">
-       <div class="player-name">Player 1</div>
-       <div class="player-score">0</div>
-      </div>
-      <table class="space">
-      </table>
-     <div class="player-2-panel">
+    <div class="player-1-panel active">
+      <div class="player-name">Player 1</div>
+      <div class="player-score">0</div>
+    </div>
+    <table class="space">
+    </table>
+    <div class="player-2-panel">
       <div class="player-name">Player 2</div>
       <div class="player-score">0</div>
+    </div>
+
+     <!--ending-popup -->
+     <div class="ending-popup">
+       <!-- ending-popup content -->
+        <div class="ending-content">
+         <p class="victory-content">Player 1 승리!<br>한판 더?</p>
+         <button class="victory-yes">좋아요!</button>
+         <button class="victory-no">노놉!</button>
+        </div>
      </div>
 
 
