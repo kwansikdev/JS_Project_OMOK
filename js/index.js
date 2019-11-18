@@ -5,21 +5,6 @@ const stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
 
 const $space = document.querySelector('.space');
 
-const render = () => {
-  let html = '';
-  stateArr.forEach((col, colSelf) => {
-    html += '<tr>';
-    col.forEach((row, rowSelf) => {
-      if (row === 0) html += `<td class="space-box" id="${colSelf},${rowSelf}"></td>`;
-      else if (row === 1) html += `<td class="space-box" id="${colSelf},${rowSelf}"><div class="black-circle"></div></td>`;
-      else if (row === 2) html += `<td class="space-box" id="${colSelf},${rowSelf}"><div class="white-circle"></div></td>`;
-      // else html += `<td class="space-box" id="${colSelf},${rowSelf}"><div class="white-circle"></div></td>`; // 3X3이 3을 저장한다면~
-    });
-    html += '</tr>';
-  });
-  $space.innerHTML = html;
-};
-
 // stateArr 배열에서의 값 리턴 (0, 0) 자기위치
 const position = (id, x, y) => {
   const [col, row] = id.split(',');
@@ -37,6 +22,7 @@ const checkRightDiagonal = (id, checkNum) => {
     for (let i = 1; position(id, -i, -i) === state; i++) count++;
     for (let i = 1; position(id, i, i) === state; i++) count++;
   } else {
+    if (position(id, 0, 0) === blockNum) return count;
     if (position(id, -1, -1) === blockNum || position(id, 1, 1) === blockNum) return count;
     for (let i = 1; i <= 3; i++) {
       if (i !== 3) if (position(id, -(i + 1), -(i + 1)) === 0 || position(id, -(i + 1), -(i + 1)) === state) if (position(id, -i, -i) === state) count++;
@@ -58,6 +44,7 @@ const checkLeftDiagonal = (id, checkNum) => {
     for (let i = 1; position(id, i, -i) === state; i++) count++;
     for (let i = 1; position(id, -i, i) === state; i++) count++;
   } else {
+    if (position(id, 0, 0) === blockNum) return count;
     if (position(id, 1, -1) === blockNum || position(id, -1, 1) === blockNum) return count;
     for (let i = 1; i <= 3; i++) {
       if (i !== 3) if (position(id, (i + 1), -(i + 1)) === 0 || position(id, (i + 1), -(i + 1)) === state) if (position(id, i, -i) === state) count++;
@@ -79,10 +66,11 @@ const checkHorizon = (id, checkNum) => {
     for (let i = 1; position(id, i, 0) === state; i++) count++;
     for (let i = 1; position(id, -i, 0) === state; i++) count++;
   } else {
+    if (position(id, 0, 0) === blockNum) return count;
     if (position(id, 1, -1) === blockNum || position(id, -1, 1) === blockNum) return count;
     for (let i = 1; i <= 3; i++) {
       if (i !== 3) if (position(id, (i + 1), 0) === 0 || position(id, (i + 1), 0) === state) if (position(id, i, 0) === state) count++;
-      if (i === 3 && position(id, i, -i) === state) count++;
+      if (i === 3 && position(id, i, 0) === state) count++;
     }
     for (let i = 1; i <= 3; i++) {
       if (i !== 3) if (position(id, -(i + 1), 0) === 0 || position(id, -(i + 1), 0) === state) if (position(id, -i, 0) === state) count++;
@@ -100,6 +88,7 @@ const checkVertical = (id, checkNum) => {
     for (let i = 1; position(id, 0, -i) === state; i++) count++;
     for (let i = 1; position(id, 0, i) === state; i++) count++;
   } else {
+    if (position(id, 0, 0) === blockNum) return count;
     if (position(id, 1, -1) === blockNum || position(id, -1, 1) === blockNum) return count;
     for (let i = 1; i <= 3; i++) {
       if (i !== 3) if (position(id, 0, -(i + 1)) === 0 || position(id, 0, -(i + 1)) === state) if (position(id, 0, -i) === state) count++;
@@ -124,6 +113,7 @@ const checkVictory = (id) => {
 };
 
 const check3X3 = (id) => {
+  const [row, col] = id.split(',');
   const checkArr = [];
   checkArr.push(checkRightDiagonal(id, 3));
   checkArr.push(checkLeftDiagonal(id, 3));
@@ -139,9 +129,37 @@ const check3X3 = (id) => {
     if (cur === 4) pre++;
     return pre;
   }, 0);
+  if (checkNum3 >= 2) { stateArr[row][col] = 3; return 1; } 
+  if (checkNum4 >= 2) { stateArr[row][col] = 4; return 2; }
+};
 
-  if (checkNum3 >= 2) return 1; 
-  if (checkNum4 >= 2) return 2;
+const render = () => {
+  if (state === 1) {
+    for (let i = 0; i < 19; i++) {
+      for (let j = 0; j < 19; j++) {
+        check3X3(`${i},${j}`);
+      }
+    }
+  } else {
+    for (let i = 0; i < 19; i++) {
+      for (let j = 0; j < 19; j++) {
+        if (stateArr[i][j] === 3 || stateArr[i][j] === 4) stateArr[i][j] = 0;
+      }
+    }
+  }
+
+  let html = '';
+  stateArr.forEach((col, colSelf) => {
+    html += '<tr>';
+    col.forEach((row, rowSelf) => {
+      if (row === 0) html += `<td class="space-box" id="${colSelf},${rowSelf}"></td>`;
+      else if (row === 1) html += `<td class="space-box" id="${colSelf},${rowSelf}"><div class="black-circle"></div></td>`;
+      else if (row === 2) html += `<td class="space-box" id="${colSelf},${rowSelf}"><div class="white-circle"></div></td>`;
+      else html += `<td class="space-box" id="${colSelf},${rowSelf}"><div class="x-block"></div></td>`; // 3X3이 3을 저장한다면~
+    });
+    html += '</tr>';
+  });
+  $space.innerHTML = html;
 };
 
 
@@ -161,21 +179,23 @@ $space.onclick = ({ target }) => {
 
   if (state === 1) {
     if (check3X3(target.id) === 1) {
+      stateArr[row][col] = 3;
       alert('33입니다');
       return;
     }
     if (check3X3(target.id) === 2) {
+      stateArr[row][col] = 4;
       alert('44입니다');
       return;
     }
     checkVictory(target.id);
     stateArr[row][col] = 1;
-    target.innerHTML = '<div class="black-circle"></div>';
+    // target.innerHTML = '<div class="black-circle"></div>';
     state = 2;
   } else {
     checkVictory(target.id);
     stateArr[row][col] = 2;
-    target.innerHTML = '<div class="white-circle"></div>';
+    // target.innerHTML = '<div class="white-circle"></div>';
     state = 1;
   }
   active();
