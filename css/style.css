@@ -84,7 +84,8 @@ main {
 .active {background-color: #660000; }
 .active .player-name {
   font-size: 40px;
-  font-weight: 500;}
+  /* font-weight: 500; */
+}
 
 .btn-new {
   width: 200px;
