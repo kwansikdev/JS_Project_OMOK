@@ -119,7 +119,7 @@ const check3X3 = (id) => {
     if (cur === 4) pre++;
     return pre;
   }, 0);
-  if (checkNum3 >= 2) { stateArr[row][col] = 3; return 1; } 
+  if (checkNum3 >= 2) { stateArr[row][col] = 3; return 1; }
   if (checkNum4 >= 2) { stateArr[row][col] = 4; return 2; }
 };
 
@@ -201,9 +201,18 @@ $startBtn.onclick = () => {
 const $endingPopup = document.querySelector('.ending-popup');
 // const $victoryYes = document.querySelector('.victory-yes');
 const $victoryNo = document.querySelector('.victory-no');
+const $victoryContent = document.querySelector('.victory-content')
+const $more = document.querySelector('.more');
 
 const endingPopup = () => {
+
   $endingPopup.style.visibility = 'visible';
+  if (state === 1) {
+   $victoryContent.innerHTML = `${$panelName1.textContent} 승리!`;
+   $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+  } else {
+   $victoryContent.innerHTML =`${$panelName2.textContent} 승리!`
+  }
 };
 
 const checkVictory = (id) => {
