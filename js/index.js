@@ -102,16 +102,6 @@ const checkVertical = (id, checkNum) => {
   return count;
 };
 
-const checkVictory = (id) => {
-  const checkArr = []; // 동시에 5가 2개가 되었을 때 하나만 출력해주기 위해 배열에 넣어주었음
-  checkArr.push(checkRightDiagonal(id, 5));
-  checkArr.push(checkLeftDiagonal(id, 5));
-  checkArr.push(checkHorizon(id, 5));
-  checkArr.push(checkVertical(id, 5));
-
-  if (checkArr.indexOf(5) !== -1) {return endingPopup()};
-};
-
 const check3X3 = (id) => {
   const [row, col] = id.split(',');
   const checkArr = [];
@@ -173,6 +163,59 @@ function active() {
   }
 }
 
+function init() {
+  window.location.reload();
+}
+
+document.querySelector('.btn-new').addEventListener('click', init);
+
+const $startPopup = document.querySelector('.start-popup');
+const $overlay = document.querySelector('.overlay');
+
+const $player1Name = document.querySelector('.player1-name');
+const $player2Name = document.querySelector('.player2-name');
+const $startBtn = document.querySelector('.start-button');
+const $panelName1 = document.querySelector('.player-1-panel > .player-name');
+const $panelName2 = document.querySelector('.player-2-panel > .player-name');
+
+// POPUP UI
+const popupclose = () => {
+  $startPopup.style.display = 'none';
+  $overlay.style.display = 'none';
+};
+
+
+$startBtn.onclick = () => {
+  const player1Name = $player1Name.value.trim();
+  const player2Name = $player2Name.value.trim();
+
+  if (player1Name === '' || player2Name === '') return;
+
+  popupclose();
+  $panelName1.textContent = player1Name;
+  $panelName2.textContent = player2Name;
+};
+
+// Ending-popup
+
+const $endingPopup = document.querySelector('.ending-popup');
+// const $victoryYes = document.querySelector('.victory-yes');
+const $victoryNo = document.querySelector('.victory-no');
+
+const endingPopup = () => {
+  $endingPopup.style.visibility = 'visible';
+};
+
+const checkVictory = (id) => {
+  const checkArr = []; // 동시에 5가 2개가 되었을 때 하나만 출력해주기 위해 배열에 넣어주었음
+  checkArr.push(checkRightDiagonal(id, 5));
+  checkArr.push(checkLeftDiagonal(id, 5));
+  checkArr.push(checkHorizon(id, 5));
+  checkArr.push(checkVertical(id, 5));
+
+  if (checkArr.indexOf(5) !== -1) { return endingPopup(); }
+};
+
 $space.onclick = ({ target }) => {
   const [row, col] = target.id.split(',');
   if (!target.classList.contains('space-box') || target.innerHTML) return;
@@ -201,48 +244,6 @@ $space.onclick = ({ target }) => {
   active();
   render();
 };
-
-function init() {
-  window.location.reload();
-}
-
-document.querySelector('.btn-new').addEventListener('click', init);
-
-// POPUP UI
-const popupclose = () => {
-  $startPopup.style.display = 'none';
-  $overlay.style.display = 'none';
-}
-
-const $startPopup = document.querySelector('.start-popup');
-const $overlay = document.querySelector('.overlay');
-
-const $player1Name = document.querySelector('.player1-name');
-const $player2Name = document.querySelector('.player2-name');
-const $startBtn = document.querySelector('.start-button');
-const $panelName1 = document.querySelector('.player-1-panel > .player-name');
-const $panelName2 = document.querySelector('.player-2-panel > .player-name');
-
-$startBtn.onclick = ({target}) => {
-  const player1Name = $player1Name.value.trim();
-  const player2Name = $player2Name.value.trim();
-
-  if (player1Name === '' || player2Name === '') return;
-
-  popupclose();
-  $panelName1.textContent = player1Name;
-  $panelName2.textContent = player2Name;
-};
-
-// Ending-popup
-
-const $endingPopup = document.querySelector('.ending-popup');
-const $victoryYes = document.querySelector('.victory-yes');
-const $victoryNo = document.querySelector('.victory-no');
-
-const endingPopup = () => {
-  $endingPopup.style.visibility = 'visible';
-}
 
 $victoryNo.addEventListener('click', init);
 
