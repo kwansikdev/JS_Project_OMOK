@@ -212,6 +212,7 @@ const endingPopup = () => {
    $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
   } else {
    $victoryContent.innerHTML =`${$panelName2.textContent} 승리!`
+   $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
   }
 };
 
