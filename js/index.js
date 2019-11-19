@@ -274,8 +274,8 @@ const render = () => {
       if (row === 0) html += `<td class="space-box" id="${colSelf},${rowSelf}"></td>`;
       else if (row === 1) html += `<td class="space-box" id="${colSelf},${rowSelf}"><div class="black-circle"></div></td>`;
       else if (row === 2) html += `<td class="space-box" id="${colSelf},${rowSelf}"><div class="white-circle"></div></td>`;
-      else if (row === 3) html += `<td class="space-box" id="${colSelf},${rowSelf}"><div class="x-block">3</div></td>`;
-      else html += `<td class="space-box" id="${colSelf},${rowSelf}"><div class="x-block">4</div></td>`;
+      else if (row === 3) html += `<td class="space-box" id="${colSelf},${rowSelf}"><div class="x-block"><i class="fas fa-times"></i></div></td>`;
+      else html += `<td class="space-box" id="${colSelf},${rowSelf}"><div class="x-block"><i class="fas fa-times"></i></div></td>`;
     });
     html += '</tr>';
   });
@@ -315,12 +315,12 @@ const timerCloser = (() => {
     timer1() {
       clearInterval(player2TimeId);
       $playerTimer1.innerHTML = 30;
-      player1TimeId = setInterval(timer1, 100);
+      player1TimeId = setInterval(timer1, 500);
     },
     timer2() {
       clearInterval(player1TimeId);
       $playerTimer2.innerHTML = 30;
-      player2TimeId = setInterval(timer2, 100);
+      player2TimeId = setInterval(timer2, 500);
     },
     stopTimer() {
       clearInterval(player1TimeId);
@@ -344,7 +344,7 @@ const checkVictory = (id) => {
   checkArr.push(checkHorizon(id, 5));
   checkArr.push(checkVertical(id, 5));
 
-  if (checkArr.indexOf(5) !== -1) { timerCloser.stopTimer(); return endingPopup(); }
+  if (checkArr.indexOf(5) !== -1) { return endingPopup(); }
 };
 
 $space.onclick = ({ target }) => {
