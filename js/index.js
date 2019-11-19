@@ -15,6 +15,12 @@ const $victoryNo = document.querySelector('.victory-no');
 const $victoryContent = document.querySelector('.victory-content');
 const $more = document.querySelector('.more');
 
+
+// Timer
+const $playerTimer1 = document.querySelector('.player-timer1');
+const $playerTimer2 = document.querySelector('.player-timer2');
+
+
 //  배열생성
 const SIZE = 19;
 let state = 1;
@@ -287,13 +293,31 @@ const endingPopup = () => {
   }
 };
 
+// Timer
+
+  const timer1 = () => {
+    $playerTimer1.innerHTML = $playerTimer1.innerHTML -1;
+  };
+
+  const timer2 = () => {
+    $playerTimer2.innerHTML = $playerTimer2.innerHTML -1;
+  };
+
+// 턴 활성화
 function active() {
+  let a, b = 0;
   if (state === 1) {
     document.querySelector('.player-2-panel').classList.toggle('active');
     document.querySelector('.player-1-panel').classList.toggle('active');
+    clearInterval(b);
+    $playerTimer1.innerHTML = 30;
+    a = setInterval(timer1 ,1000);
   } else {
     document.querySelector('.player-1-panel').classList.toggle('active');
     document.querySelector('.player-2-panel').classList.toggle('active');
+    clearInterval(a);
+    $playerTimer2.innerHTML = 30;
+    b = setInterval(timer2 ,1000);
   }
 }
 
@@ -355,11 +379,15 @@ const inputName = () => {
 
 $startBtn.onclick = () => {
   inputName();
+  document.querySelector('.player-2-panel').classList.add('active');
+  active();
 };
 
 $player2Name.onkeyup = ({ keyCode }) => {
   if (keyCode !== 13) return;
   inputName();
+  document.querySelector('.player-2-panel').classList.add('active');
+  active();
 };
 
 function init() {
