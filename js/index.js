@@ -15,6 +15,12 @@ const $victoryNo = document.querySelector('.victory-no');
 const $victoryContent = document.querySelector('.victory-content');
 const $more = document.querySelector('.more');
 
+
+// Timer
+const $playerTimer1 = document.querySelector('.player-timer1');
+const $playerTimer2 = document.querySelector('.player-timer2');
+
+
 //  배열생성
 const SIZE = 19;
 let state = 1;
@@ -34,7 +40,7 @@ const position = (id, x, y) => {
 
 const checkRightDiagonal = (id, checkNum) => {
   let count = 1;
-  
+
   if (checkNum === 5) {
     for (let i = 1; position(id, -i, -i) === state; i++) count++; // 붙어있는 같은 색상들 확인
     for (let i = 1; position(id, i, i) === state; i++) count++;
@@ -80,7 +86,7 @@ const checkRightDiagonal = (id, checkNum) => {
 
 const checkLeftDiagonal = (id, checkNum) => {
   let count = 1;
-  
+
   if (checkNum === 5) {
     for (let i = 1; position(id, i, -i) === state; i++) count++; // 붙어있는 같은 색상들 확인
     for (let i = 1; position(id, -i, i) === state; i++) count++;
@@ -126,7 +132,7 @@ const checkLeftDiagonal = (id, checkNum) => {
 
 const checkHorizon = (id, checkNum) => {
   let count = 1;
-  
+
   if (checkNum === 5) {
     for (let i = 1; position(id, 0, -i) === state; i++) count++; // 붙어있는 같은 색상들 확인
     for (let i = 1; position(id, 0, i) === state; i++) count++;
@@ -172,7 +178,7 @@ const checkHorizon = (id, checkNum) => {
 
 const checkVertical = (id, checkNum) => {
   let count = 1;
-  
+
   if (checkNum === 5) {
     for (let i = 1; position(id, -i, 0) === state; i++) count++; // 붙어있는 같은 색상들 확인
     for (let i = 1; position(id, i, 0) === state; i++) count++;
@@ -224,12 +230,12 @@ const checkNone = (id) => {
   checkArr.push(checkLeftDiagonal(id, 3));
   checkArr.push(checkHorizon(id, 3));
   checkArr.push(checkVertical(id, 3));
-  
+
   const checkNum3 = checkArr.reduce((pre, cur) => {
     if (cur === true) pre++;
     return pre;
   }, 0);
-  
+
   // 4X4 확인
   checkArr = [];
   checkArr.push(checkRightDiagonal(id, 4));
@@ -287,14 +293,32 @@ const endingPopup = () => {
   }
 };
 
+// Timer
+
+  const timer1 = () => {
+    $playerTimer1.innerHTML = $playerTimer1.innerHTML -1;
+  };
+
+  const timer2 = () => {
+    $playerTimer2.innerHTML = $playerTimer2.innerHTML -1;
+  };
+
+// 턴 활성화
 function active() {
-  // if (state === 1) {
-  document.querySelector('.player-2-panel').classList.toggle('active');
-  document.querySelector('.player-1-panel').classList.toggle('active');
-  // } else {
-  //   document.querySelector('.player-1-panel').classList.toggle('active');
-  //   document.querySelector('.player-2-panel').classList.toggle('active');
-  // }
+  let a, b = 0;
+  if (state === 1) {
+    document.querySelector('.player-2-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+    clearInterval(b);
+    $playerTimer1.innerHTML = 30;
+    a = setInterval(timer1 ,1000);
+  } else {
+    document.querySelector('.player-1-panel').classList.toggle('active');
+    document.querySelector('.player-2-panel').classList.toggle('active');
+    clearInterval(a);
+    $playerTimer2.innerHTML = 30;
+    b = setInterval(timer2 ,1000);
+  }
 }
 
 const checkVictory = (id) => {
@@ -355,11 +379,15 @@ const inputName = () => {
 
 $startBtn.onclick = () => {
   inputName();
+  document.querySelector('.player-2-panel').classList.add('active');
+  active();
 };
 
 $player2Name.onkeyup = ({ keyCode }) => {
   if (keyCode !== 13) return;
   inputName();
+  document.querySelector('.player-2-panel').classList.add('active');
+  active();
 };
 
 function init() {
@@ -369,7 +397,7 @@ function init() {
 function restart() {
   stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
 
-  let name1 = ''; 
+  let name1 = '';
   let name2 = '';
 
   if (state === 1) {
