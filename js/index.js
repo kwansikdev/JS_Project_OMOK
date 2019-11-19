@@ -1,7 +1,7 @@
 const SIZE = 19;
 let state = 1;
 
-const stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
+let stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
 
 const $space = document.querySelector('.space');
 
@@ -223,8 +223,7 @@ const checkNone = (id) => {
     if (cur === true) pre++;
     return pre;
   }, 0);
-
-  if (checkNum3 >= 2) { stateArr[row][col] = 3; return 1; } 
+  if (checkNum3 >= 2) { stateArr[row][col] = 3; return 1; }
   if (checkNum4 >= 2) { stateArr[row][col] = 4; return 2; }
 };
 
@@ -273,6 +272,32 @@ function init() {
   window.location.reload();
 }
 
+
+function restart() {
+  stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
+
+  let name1, name2 = '';
+
+  if (state === 1) {
+    name1 = $panelName1.textContent;
+    name2 = $panelName2.textContent;
+  } else {
+    name1 = $panelName2.textContent;
+    name2 = $panelName1.textContent;
+  }
+
+  $endingPopup.style.visibility = 'hidden';
+  $panelName1.textContent = name1;
+  $panelName2.textContent = name2;
+
+  if (state === 2) {
+    document.querySelector('.player-2-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+  }
+
+  state = 1;
+  render();
+}
 document.querySelector('.btn-new').addEventListener('click', init);
 
 const $startPopup = document.querySelector('.start-popup');
@@ -290,26 +315,44 @@ const popupclose = () => {
   $overlay.style.display = 'none';
 };
 
-
-$startBtn.onclick = () => {
+const inputName = (keyCode) => {
   const player1Name = $player1Name.value.trim();
   const player2Name = $player2Name.value.trim();
 
-  if (player1Name === '' || player2Name === '') return;
+  if(player1Name === '' || player2Name === '') return;
 
   popupclose();
   $panelName1.textContent = player1Name;
   $panelName2.textContent = player2Name;
+}
+
+$startBtn.onclick = ({target, keyCode}) => {
+  inputName()
+};
+
+$player2Name.onkeyup = ({keyCode}) => {
+  if (keyCode !== 13) return;
+  inputName();
 };
 
 // Ending-popup
 
 const $endingPopup = document.querySelector('.ending-popup');
-// const $victoryYes = document.querySelector('.victory-yes');
+const $victoryYes = document.querySelector('.victory-yes');
 const $victoryNo = document.querySelector('.victory-no');
+const $victoryContent = document.querySelector('.victory-content')
+const $more = document.querySelector('.more');
 
 const endingPopup = () => {
+
   $endingPopup.style.visibility = 'visible';
+  if (state === 1) {
+   $victoryContent.innerHTML = `${$panelName1.textContent} 승리!`;
+   $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+  } else {
+   $victoryContent.innerHTML =`${$panelName2.textContent} 승리!`;
+   $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+  }
 };
 
 const checkVictory = (id) => {
@@ -352,5 +395,6 @@ $space.onclick = ({ target }) => {
 };
 
 $victoryNo.addEventListener('click', init);
+$victoryYes.addEventListener('click', restart);
 
 window.onload = render;
