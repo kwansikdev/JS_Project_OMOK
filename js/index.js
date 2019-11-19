@@ -1,3 +1,21 @@
+// DOMS
+// starting-popup
+const $startPopup = document.querySelector('.start-popup');
+const $overlay = document.querySelector('.overlay');
+const $player1Name = document.querySelector('.player1-name');
+const $player2Name = document.querySelector('.player2-name');
+const $startBtn = document.querySelector('.start-button');
+const $panelName1 = document.querySelector('.player-1-panel > .player-name');
+const $panelName2 = document.querySelector('.player-2-panel > .player-name');
+
+// Ending-popup
+const $endingPopup = document.querySelector('.ending-popup');
+const $victoryYes = document.querySelector('.victory-yes');
+const $victoryNo = document.querySelector('.victory-no');
+const $victoryContent = document.querySelector('.victory-content');
+const $more = document.querySelector('.more');
+
+//  배열생성
 const SIZE = 19;
 let state = 1;
 
@@ -57,7 +75,7 @@ const checkRightDiagonal = (id, checkNum) => {
     else if (position(id, -1, -1) !== state && position(id, -2, -2) === state && position(id, 1, 1) === state && position(id, -3, -3) === 0 && position(id, 2, 2) === 0) return true; // 왼쪽 위 방향이 비었을 경우
     else if (position(id, 1, 1) !== state && position(id, 2, 2) === state && position(id, -1, -1) === state && position(id, 3, 3) === 0 && position(id, -2, -2) === 0) return true; // 오른쪽 아래 방향이 비었을 경우
   }
-  return false;
+  return count;
 };
 
 const checkLeftDiagonal = (id, checkNum) => {
@@ -103,7 +121,7 @@ const checkLeftDiagonal = (id, checkNum) => {
     else if (position(id, 1, -1) !== state && position(id, 2, -2) === state && position(id, -1, 1) === state && position(id, 3, -3) === 0 && position(id, -2, 2) === 0) return true; // 왼쪽 아래 방향이 비었을 경우
     else if (position(id, -1, 1) !== state && position(id, -2, 2) === state && position(id, 1, -1) === state && position(id, -3, 3) === 0 && position(id, 2, -2) === 0) return true; // 오른쪽 위 방향이 비었을 경우
   }
-  return false;
+  return count;
 };
 
 const checkHorizon = (id, checkNum) => {
@@ -149,7 +167,7 @@ const checkHorizon = (id, checkNum) => {
     else if (position(id, 0, -1) !== state && position(id, 0, -2) === state && position(id, 0, 1) === state && position(id, 0, -3) === 0 && position(id, 0, 2) === 0) return true; // 왼쪽 방향이 비었을 경우
     else if (position(id, 0, 1) !== state && position(id, 0, 2) === state && position(id, 0, -1) === state && position(id, 0, 3) === 0 && position(id, 0, -2) === 0) return true; // 오른쪽 방향이 비었을 경우
   }
-  return false;
+  return count;
 };
 
 const checkVertical = (id, checkNum) => {
@@ -195,7 +213,7 @@ const checkVertical = (id, checkNum) => {
     else if (position(id, -1, 0) !== state && position(id, -2, 0) === state && position(id, 1, 0) === state && position(id, -3, 0) === 0 && position(id, 2, 0) === 0) return true; // 위 방향이 비었을 경우
     else if (position(id, 1, 0) !== state && position(id, 2, 0) === state && position(id, -1, 0) === state && position(id, 3, 0) === 0 && position(id, -2, 0) === 0) return true; // 아래 방향이 비었을 경우
   }
-  return false;
+  return count;
 };
 
 const checkNone = (id) => {
@@ -227,6 +245,7 @@ const checkNone = (id) => {
   if (checkNum4 >= 2) { stateArr[row][col] = 4; return 2; }
 };
 
+// stateArr 배열을 그리는 함수
 const render = () => {
   if (state === 1) {
     for (let i = 0; i < 19; i++) {
@@ -257,6 +276,16 @@ const render = () => {
   $space.innerHTML = html;
 };
 
+const endingPopup = () => {
+  $endingPopup.style.visibility = 'visible';
+  if (state === 1) {
+    $victoryContent.innerHTML = `${$panelName1.textContent} 승리!`;
+    $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+  } else {
+    $victoryContent.innerHTML = `${$panelName2.textContent} 승리!`;
+    $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+  }
+};
 
 function active() {
   if (state === 1) {
@@ -267,93 +296,6 @@ function active() {
     document.querySelector('.player-2-panel').classList.toggle('active');
   }
 }
-
-function init() {
-  window.location.reload();
-}
-
-
-function restart() {
-  stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
-
-  let name1, name2 = '';
-
-  if (state === 1) {
-    name1 = $panelName1.textContent;
-    name2 = $panelName2.textContent;
-  } else {
-    name1 = $panelName2.textContent;
-    name2 = $panelName1.textContent;
-  }
-
-  $endingPopup.style.visibility = 'hidden';
-  $panelName1.textContent = name1;
-  $panelName2.textContent = name2;
-
-  if (state === 2) {
-    document.querySelector('.player-2-panel').classList.toggle('active');
-    document.querySelector('.player-1-panel').classList.toggle('active');
-  }
-
-  state = 1;
-  render();
-}
-document.querySelector('.btn-new').addEventListener('click', init);
-
-const $startPopup = document.querySelector('.start-popup');
-const $overlay = document.querySelector('.overlay');
-
-const $player1Name = document.querySelector('.player1-name');
-const $player2Name = document.querySelector('.player2-name');
-const $startBtn = document.querySelector('.start-button');
-const $panelName1 = document.querySelector('.player-1-panel > .player-name');
-const $panelName2 = document.querySelector('.player-2-panel > .player-name');
-
-// POPUP UI
-const popupclose = () => {
-  $startPopup.style.display = 'none';
-  $overlay.style.display = 'none';
-};
-
-const inputName = (keyCode) => {
-  const player1Name = $player1Name.value.trim();
-  const player2Name = $player2Name.value.trim();
-
-  if(player1Name === '' || player2Name === '') return;
-
-  popupclose();
-  $panelName1.textContent = player1Name;
-  $panelName2.textContent = player2Name;
-}
-
-$startBtn.onclick = ({target, keyCode}) => {
-  inputName()
-};
-
-$player2Name.onkeyup = ({keyCode}) => {
-  if (keyCode !== 13) return;
-  inputName();
-};
-
-// Ending-popup
-
-const $endingPopup = document.querySelector('.ending-popup');
-const $victoryYes = document.querySelector('.victory-yes');
-const $victoryNo = document.querySelector('.victory-no');
-const $victoryContent = document.querySelector('.victory-content')
-const $more = document.querySelector('.more');
-
-const endingPopup = () => {
-
-  $endingPopup.style.visibility = 'visible';
-  if (state === 1) {
-   $victoryContent.innerHTML = `${$panelName1.textContent} 승리!`;
-   $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
-  } else {
-   $victoryContent.innerHTML =`${$panelName2.textContent} 승리!`;
-   $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
-  }
-};
 
 const checkVictory = (id) => {
   const checkArr = []; // 동시에 5가 2개가 되었을 때 하나만 출력해주기 위해 배열에 넣어주었음
@@ -394,7 +336,64 @@ $space.onclick = ({ target }) => {
   render();
 };
 
-$victoryNo.addEventListener('click', init);
-$victoryYes.addEventListener('click', restart);
+// POPUP UI
+const popupclose = () => {
+  $startPopup.style.display = 'none';
+  $overlay.style.display = 'none';
+};
+
+const inputName = () => {
+  const player1Name = $player1Name.value.trim();
+  const player2Name = $player2Name.value.trim();
+
+  if (player1Name === '' || player2Name === '') return;
+
+  popupclose();
+  $panelName1.textContent = player1Name;
+  $panelName2.textContent = player2Name;
+};
+
+$startBtn.onclick = () => {
+  inputName();
+};
+
+$player2Name.onkeyup = ({ keyCode }) => {
+  if (keyCode !== 13) return;
+  inputName();
+};
+
+function init() {
+  window.location.reload();
+}
+
+function restart() {
+  stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
+
+  let name1 = ''; 
+  let name2 = '';
+
+  if (state === 1) {
+    name1 = $panelName1.textContent;
+    name2 = $panelName2.textContent;
+  } else {
+    name1 = $panelName2.textContent;
+    name2 = $panelName1.textContent;
+  }
+
+  $endingPopup.style.visibility = 'hidden';
+  $panelName1.textContent = name1;
+  $panelName2.textContent = name2;
+
+  if (state === 2) {
+    document.querySelector('.player-2-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+  }
+
+  state = 1;
+  render();
+}
 
 window.onload = render;
+$victoryNo.addEventListener('click', init);
+$victoryYes.addEventListener('click', restart);
+document.querySelector('.btn-new').addEventListener('click', init);
