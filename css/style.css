@@ -9,6 +9,8 @@
 body {
   font-size: 25px;
   position: relative;
+  background: url(../image/background.png);
+  background-size: cover;
 }
 
 header {
@@ -78,7 +80,7 @@ main {
 
 .space {
   margin: 0 auto;
-  background: url(../image/omok.jpg) no-repeat;
+  background: url(../image/omok_old_photo.jpg) no-repeat;
   background-size: contain;
   width: 760px;
   height: 760px;
@@ -94,6 +96,15 @@ main {
   margin: 0;
   vertical-align: top;
   line-height: 35px;
+}
+
+.x-block{
+  display: flex;
+  justify-content: center;
+}
+
+.fa-w-11{
+  align-items: center;
 }
 
 .black-circle{
@@ -114,19 +125,9 @@ main {
   background: url(../image/white-stone.png);
 }
 
-.x-block i{
-  /* display:inline-block; */
-  color : red;
-  font-size: 30px !important;
-  /* border: 1px solid #fff; */
-  /* border-radius: 50%; */
-  /* background: red; */
-  padding: 0 auto;
-}
-
 .fa-times {
   color : red;
-  font-size: 35px;
+  font-size: 40px;
 }
 
 .player-1-panel {
