@@ -310,7 +310,7 @@ const timerCloser = (() => {
       clearInterval(player2TimeId);
     }
   };
-  
+
   return {
     timer1() {
       clearInterval(player2TimeId);
@@ -408,7 +408,7 @@ function init() {
 
 function restart() {
   stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
-  
+
   timerCloser.timer1();
   let name1 = '';
   let name2 = '';
