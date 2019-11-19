@@ -143,14 +143,24 @@ main {
   text-align: center;
 }
 
-.player-timer {
+.player-timer1, .player-timer2{
   text-align: center;
   font-size: 80px;
+  visibility: hidden;
+}
+
+.active .player-timer1 {
+  visibility: visible;
+}
+
+.active .player-timer2 {
+  visibility: visible;
 }
 
 .active {background-color: #660000; }
 .active .player-name {
   font-size: 40px;
+  visibility: visible;
   /* font-weight: 500; */
 }
 

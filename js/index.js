@@ -294,31 +294,47 @@ const endingPopup = () => {
 };
 
 // Timer
+const timerCloser = (() => {
+  let player1TimeId = 0;
+  let player2TimeId = 0;
 
   const timer1 = () => {
-    $playerTimer1.innerHTML = $playerTimer1.innerHTML -1;
+    $playerTimer1.innerHTML -= 1;
+    if ($playerTimer1.textContent === '0') {
+      clearInterval(player1TimeId);
+    }
   };
-
   const timer2 = () => {
-    $playerTimer2.innerHTML = $playerTimer2.innerHTML -1;
+    $playerTimer2.innerHTML -= 1;
+    if ($playerTimer2.textContent === '0') {
+      clearInterval(player2TimeId);
+    }
   };
+  
+  return {
+    timer1() {
+      clearInterval(player2TimeId);
+      $playerTimer1.innerHTML = 30;
+      player1TimeId = setInterval(timer1, 100);
+    },
+    timer2() {
+      clearInterval(player1TimeId);
+      $playerTimer2.innerHTML = 30;
+      player2TimeId = setInterval(timer2, 100);
+    },
+    stopTimer() {
+      clearInterval(player1TimeId);
+      clearInterval(player2TimeId);
+    }
+  };
+})();
 
 // 턴 활성화
 function active() {
-  let a, b = 0;
-  if (state === 1) {
-    document.querySelector('.player-2-panel').classList.toggle('active');
-    document.querySelector('.player-1-panel').classList.toggle('active');
-    clearInterval(b);
-    $playerTimer1.innerHTML = 30;
-    a = setInterval(timer1 ,1000);
-  } else {
-    document.querySelector('.player-1-panel').classList.toggle('active');
-    document.querySelector('.player-2-panel').classList.toggle('active');
-    clearInterval(a);
-    $playerTimer2.innerHTML = 30;
-    b = setInterval(timer2 ,1000);
-  }
+  document.querySelector('.player-1-panel').classList.toggle('active');
+  document.querySelector('.player-2-panel').classList.toggle('active');
+  if (state === 1) timerCloser.timer1();
+  else timerCloser.timer2();
 }
 
 const checkVictory = (id) => {
@@ -328,7 +344,7 @@ const checkVictory = (id) => {
   checkArr.push(checkHorizon(id, 5));
   checkArr.push(checkVertical(id, 5));
 
-  if (checkArr.indexOf(5) !== -1) { return endingPopup(); }
+  if (checkArr.indexOf(5) !== -1) { timerCloser.stopTimer(); return endingPopup(); }
 };
 
 $space.onclick = ({ target }) => {
@@ -338,22 +354,18 @@ $space.onclick = ({ target }) => {
   if (state === 1) {
     if (checkNone(target.id) === 1) {
       stateArr[row][col] = 3;
-      alert('33입니다');
       return;
     }
     if (checkNone(target.id) === 2) {
       stateArr[row][col] = 4;
-      alert('44입니다');
       return;
     }
     checkVictory(target.id);
     stateArr[row][col] = 1;
-    // target.innerHTML = '<div class="black-circle"></div>';
     state = 2;
   } else {
     checkVictory(target.id);
     stateArr[row][col] = 2;
-    // target.innerHTML = '<div class="white-circle"></div>';
     state = 1;
   }
   active();
@@ -396,7 +408,8 @@ function init() {
 
 function restart() {
   stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
-
+  
+  timerCloser.timer1();
   let name1 = '';
   let name2 = '';
 
