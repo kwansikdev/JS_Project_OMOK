@@ -360,6 +360,7 @@ const checkVictory = (id) => {
     }
 
     return endingPopup();
+
   }
 };
 
@@ -440,6 +441,10 @@ function restart() {
     $player1Panel.classList.toggle('active');
   }
   state = 1;
+
+  timerCloser.stopTimer();
+  if (state === 1) timerCloser.timer1();
+  else timerCloser.timer2();
   render();
 }
 
