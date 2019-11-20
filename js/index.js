@@ -75,11 +75,11 @@ const checkRightDiagonal = (id, checkNum) => {
     }
   } else { // 3X3 확인
     // 왼쪽 위 방향에 2개가 다 있는 경우
-    if (position(id, -1, -1) === state && position(id, -2, -2) === state && position(id, 1, 1) === 0 && position(id, -3, -3) === 0 && (position(id, 2, 2) !== 2 || position(id, -4, -4) !== 2) && position(id, 2, 2) !== state && position(id, -4, -4) !== state) return true;
-    else if (position(id, -1, -1) === 0 && position(id, -2, -2) === state && position(id, -3, -3) === state && position(id, 1, 1) === 0 && position(id, -4, -4) === 0) return true;
+    if (position(id, -1, -1) === state && position(id, -2, -2) === state && (position(id, 1, 1) === 0 || position(id, 1, 1) === 3) && position(id, -3, -3) === 0 && (position(id, 2, 2) !== 2 || position(id, -4, -4) !== 2) && position(id, 2, 2) !== state && position(id, -4, -4) !== state) return true;
+    else if ((position(id, -1, -1) === 0 || position(id, -1, -1) === 3) && position(id, -2, -2) === state && position(id, -3, -3) === state && position(id, 1, 1) === 0 && position(id, -4, -4) === 0) return true;
     // 오른쪽 아래 방향에 2개가 다 있는 경우
-    else if (position(id, 1, 1) === state && position(id, 2, 2) === state && position(id, -1, -1) === 0 && position(id, 3, 3) === 0 && (position(id, -2, -2) !== 2 || position(id, 4, 4) !== 2) && position(id, -2, -2) !== state && position(id, 4, 4) !== state) return true;
-    else if (position(id, 1, 1) === 0 && position(id, 2, 2) === state && position(id, 3, 3) === state && position(id, -1, -1) === 0 && position(id, 4, 4) === 0) return true;
+    else if (position(id, 1, 1) === state && position(id, 2, 2) === state && (position(id, -1, -1) === 0 || position(id, -1, -1) === 3) && position(id, 3, 3) === 0 && (position(id, -2, -2) !== 2 || position(id, 4, 4) !== 2) && position(id, -2, -2) !== state && position(id, 4, 4) !== state) return true;
+    else if ((position(id, 1, 1) === 0 || position(id, 1, 1) === 3) && position(id, 2, 2) === state && position(id, 3, 3) === state && position(id, -1, -1) === 0 && position(id, 4, 4) === 0) return true;
     for (let i = 1; i <= 3; i++) if (position(id, i, i) === state && position(id, 1, 1) === 0) count++;
     if (count === 3 && position(id, -1, -1) !== state && ((position(id, 3, 3) === 0 && position(id, -1, -1) === 0) && (position(id, 4, 4) === 0 && position(id, -1, -1) === 0))) return true;
     else if (position(id, -1, -1) !== state && position(id, 1, 1) !== state) return false; // 양쪽이 비었을 경우 안된다.
@@ -121,11 +121,11 @@ const checkLeftDiagonal = (id, checkNum) => {
     }
   } else { // 3X3 확인
     // 왼쪽 아래 방향에 2개가 다 있는 경우
-    if (position(id, 1, -1) === state && position(id, 2, -2) === state && position(id, -1, 1) === 0 && position(id, 3, -3) === 0 && (position(id, -2, 2) !== 2 || position(id, 4, -4) !== 2) && position(id, -2, 2) !== state && position(id, 4, -4) !== state) return true;
-    else if (position(id, 1, -1) === 0 && position(id, 2, -2) === state && position(id, 3, -3) === state && position(id, -1, 1) === 0 && position(id, 4, -4) === 0) return true;
+    if (position(id, 1, -1) === state && position(id, 2, -2) === state && (position(id, -1, 1) === 0 || position(id, -1, 1) === 3) && position(id, 3, -3) === 0 && (position(id, -2, 2) !== 2 || position(id, 4, -4) !== 2) && position(id, -2, 2) !== state && position(id, 4, -4) !== state) return true;
+    else if ((position(id, 1, -1) === 0 || position(id, 1, -1) === 3) && position(id, 2, -2) === state && position(id, 3, -3) === state && position(id, -1, 1) === 0 && position(id, 4, -4) === 0) return true;
     // 오른쪽 위 방향에 2개가 다 있는 경우
-    else if (position(id, -1, 1) === state && position(id, -2, 2) === state && position(id, 1, -1) === 0 && position(id, -3, 3) === 0 && (position(id, 2, -2) !== 2 || position(id, -4, 4) !== 2) && position(id, 2, -2) !== state && position(id, -4, 4) !== state) return true;
-    else if (position(id, -1, 1) === 0 && position(id, -2, 2) === state && position(id, -3, 3) === state && position(id, 1, -1) === 0 && position(id, -4, 4) === 0) return true;
+    else if (position(id, -1, 1) === state && position(id, -2, 2) === state && (position(id, 1, -1) === 0 || position(id, 1, -1) === 3) && position(id, -3, 3) === 0 && (position(id, 2, -2) !== 2 || position(id, -4, 4) !== 2) && position(id, 2, -2) !== state && position(id, -4, 4) !== state) return true;
+    else if ((position(id, -1, 1) === 0 || position(id, -1, 1) === 3) && position(id, -2, 2) === state && position(id, -3, 3) === state && position(id, 1, -1) === 0 && position(id, -4, 4) === 0) return true;
     for (let i = 1; i <= 3; i++) if (position(id, -i, i) === state && position(id, -1, 1) === 0) count++;
     if (count === 3 && position(id, 1, -1) !== state && ((position(id, -3, 3) === 0 && position(id, 1, -1) === 0) && (position(id, -4, 4) === 0 && position(id, 1, -1) === 0))) return true;
     else if (position(id, 1, -1) !== state && position(id, -1, 1) !== state) return false; // 양쪽이 비었을 경우 안된다.
@@ -253,8 +253,8 @@ const checkNone = (id) => {
     if (cur === true) pre++;
     return pre;
   }, 0);
-  if (checkNum3 >= 2) { stateArr[row][col] = 3; return 1; }
-  if (checkNum4 >= 2) { stateArr[row][col] = 4; return 2; }
+
+  if (checkNum3 >= 2 || checkNum4 >= 2) { stateArr[row][col] = 3; return 1; }
 };
 
 // stateArr 배열을 그리는 함수
@@ -372,10 +372,6 @@ $space.onclick = ({ target }) => {
       stateArr[row][col] = 3;
       return;
     }
-    if (checkNone(target.id) === 2) {
-      stateArr[row][col] = 4;
-      return;
-    }
     checkVictory(target.id);
     stateArr[row][col] = 1;
     state = 2;
@@ -412,7 +408,7 @@ $startBtn.onclick = () => {
   active();
 };
 
-$bettingList.onkeyup = ({keyCode}) => {
+$bettingList.onkeyup = ({ keyCode }) => {
   if (keyCode !== 13 || !$bettingList.value.trim()) return;
   popupclose();
   inputName();
@@ -426,7 +422,7 @@ function init() {
 function restart() {
   stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
 
-  $endingPopup.style.visibility = "hidden";
+  $endingPopup.style.visibility = 'hidden';
   $bettingContent.textContent = $endingBettingContent.value.trim();
 
   let name1 = '';
@@ -437,7 +433,7 @@ function restart() {
 
   $endingPopup.style.visibility = 'hidden';
   $panelName2.textContent = name1;
-  $panelName1.textContent = name2
+  $panelName1.textContent = name2;
 
   if (state === 1) {
     $player2Panel.classList.toggle('active');
