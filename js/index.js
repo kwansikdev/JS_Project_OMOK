@@ -344,14 +344,19 @@ function active() {
 }
 
 const checkVictory = (id) => {
-  const checkArr = []; // 동시에 5가 2개가 되었을 때 하나만 출력해주기 위해 배열에 넣어주었음
+  let checkArr = []; // 동시에 5가 2개가 되었을 때 하나만 출력해주기 위해 배열에 넣어주었음
   checkArr.push(checkRightDiagonal(id, 5));
   checkArr.push(checkLeftDiagonal(id, 5));
   checkArr.push(checkHorizon(id, 5));
   checkArr.push(checkVertical(id, 5));
 
+  checkArr = checkArr.map((count) => {
+    if (state === 2 && count >= 5) count = 5; // 흰색이긴거
+    return count;
+  });
+
   if (checkArr.indexOf(5) !== -1) {
-    if (state === 2) {
+    if (state === 1) {
       $player2Panel.classList.toggle('active');
       $player1Panel.classList.toggle('active');
     } else {
@@ -360,7 +365,6 @@ const checkVictory = (id) => {
     }
 
     return endingPopup();
-
   }
 };
 
