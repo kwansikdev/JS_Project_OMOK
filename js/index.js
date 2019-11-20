@@ -429,7 +429,17 @@ function restart() {
   $endingPopup.style.visibility = "hidden";
   $bettingContent.textContent = $endingBettingContent.value.trim();
 
-  if (state === 2) {
+  let name1 = '';
+  let name2 = '';
+
+  name1 = $panelName1.textContent;
+  name2 = $panelName2.textContent;
+
+  $endingPopup.style.visibility = 'hidden';
+  $panelName2.textContent = name1;
+  $panelName1.textContent = name2
+
+  if (state === 1) {
     $player2Panel.classList.toggle('active');
     $player1Panel.classList.toggle('active');
   }
