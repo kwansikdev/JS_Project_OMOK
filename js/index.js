@@ -17,6 +17,8 @@ const $panelName2 = document.querySelector('.player-2-panel > .player-name');
 // Timer
 const $playerTimer1 = document.querySelector('.player-timer1');
 const $playerTimer2 = document.querySelector('.player-timer2');
+const $bettingPenalty1 = document.querySelector('.betting-penalty1');
+const $bettingPenalty2 = document.querySelector('.betting-penalty2');
 
 // Ending-popup
 const $endingPopup = document.querySelector('.ending-popup');
@@ -358,17 +360,23 @@ const endingPopup = () => {
 const timerCloser = (() => {
   let player1TimeId = 0;
   let player2TimeId = 0;
+  let player1Count = 2;
+  let player2Count = 2;
 
   const timer1 = () => {
     $playerTimer1.innerHTML -= 1;
     if ($playerTimer1.textContent === '0') {
       clearInterval(player1TimeId);
+      $bettingPenalty1.innerHTML = `내기 X ${player1Count}`
+      player1Count++;
     }
   };
   const timer2 = () => {
     $playerTimer2.innerHTML -= 1;
     if ($playerTimer2.textContent === '0') {
       clearInterval(player2TimeId);
+      $bettingPenalty2.innerHTML = `내기 X ${player2Count}`
+      player2Count++;
     }
   };
 

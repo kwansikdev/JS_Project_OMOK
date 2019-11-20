@@ -77,10 +77,11 @@ header {
 }
 
 .betting-content {
-  font-size: 30px;
-  height: 30px;
+  font-size: 50px;
+  height: 50px;
   margin: 0 auto;
   text-align: center;
+  width: 760px;
 }
 
 .btn-new {
@@ -189,6 +190,21 @@ main {
 }
 
 .active .player-timer2 {
+  visibility: visible;
+}
+
+.betting-penalty1, .betting-penalty2 {
+  margin: 40px 0;
+  text-align: center;
+  font-size: 40px;
+  visibility: hidden;
+}
+
+.active .betting-penalty1 {
+  visibility: visible;
+}
+
+.active .betting-penalty2 {
   visibility: visible;
 }
 
