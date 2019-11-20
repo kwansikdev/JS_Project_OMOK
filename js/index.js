@@ -367,7 +367,7 @@ const timerCloser = (() => {
     $playerTimer1.innerHTML -= 1;
     if ($playerTimer1.textContent === '0') {
       clearInterval(player1TimeId);
-      $bettingPenalty1.innerHTML = `내기 X ${player1Count}`
+      $bettingPenalty1.innerHTML = `내기 X ${player1Count}`;
       player1Count++;
     }
   };
@@ -375,7 +375,7 @@ const timerCloser = (() => {
     $playerTimer2.innerHTML -= 1;
     if ($playerTimer2.textContent === '0') {
       clearInterval(player2TimeId);
-      $bettingPenalty2.innerHTML = `내기 X ${player2Count}`
+      $bettingPenalty2.innerHTML = `내기 X ${player2Count}`;
       player2Count++;
     }
   };
