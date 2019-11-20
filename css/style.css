@@ -193,6 +193,21 @@ main {
   visibility: visible;
 }
 
+.betting-penalty1, .betting-penalty2 {
+  margin: 40px 0;
+  text-align: center;
+  font-size: 40px;
+  visibility: hidden;
+}
+
+.active .betting-penalty1 {
+  visibility: visible;
+}
+
+.active .betting-penalty2 {
+  visibility: visible;
+}
+
 .active {background-color: #660000; }
 .active .player-name {
   margin: 20px 0;
