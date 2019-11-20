@@ -1,24 +1,30 @@
 // DOMS
 // starting-popup
 const $startPopup = document.querySelector('.start-popup');
-const $overlay = document.querySelector('.overlay');
 const $player1Name = document.querySelector('.player1-name');
 const $player2Name = document.querySelector('.player2-name');
+const $bettingList = document.querySelector('.betting-list');
 const $startBtn = document.querySelector('.start-button');
+const $overlay = document.querySelector('.overlay');
+const $bettingContent = document.querySelector('.betting-content');
+
+// player-panel
+const $player1Panel = document.querySelector('.player-1-panel');
+const $player2Panel = document.querySelector('.player-2-panel');
 const $panelName1 = document.querySelector('.player-1-panel > .player-name');
 const $panelName2 = document.querySelector('.player-2-panel > .player-name');
-
-// Ending-popup
-const $endingPopup = document.querySelector('.ending-popup');
-const $victoryYes = document.querySelector('.victory-yes');
-const $victoryNo = document.querySelector('.victory-no');
-const $victoryContent = document.querySelector('.victory-content');
-const $more = document.querySelector('.more');
-
 
 // Timer
 const $playerTimer1 = document.querySelector('.player-timer1');
 const $playerTimer2 = document.querySelector('.player-timer2');
+
+// Ending-popup
+const $endingPopup = document.querySelector('.ending-popup');
+const $victoryContent = document.querySelector('.victory-content');
+const $more = document.querySelector('.more');
+const $endingBettingContent = document.querySelector('.ending-betting-content');
+const $victoryYes = document.querySelector('.victory-yes');
+const $victoryNo = document.querySelector('.victory-no');
 
 
 //  배열생성
@@ -45,11 +51,6 @@ const checkRightDiagonal = (id, checkNum) => {
     for (let i = 1; position(id, -i, -i) === state; i++) count++; // 붙어있는 같은 색상들 확인
     for (let i = 1; position(id, i, i) === state; i++) count++;
   } else if (checkNum === 4) { // 4X4 확인
-    if (position(id, 1, 1) === state && position(id, 3, 3) === state && position(id, 4, 4) === state && position(id, -2, -2) === state && position(id, -3, -3) === state) return 44; // 새로 추가
-    else if (position(id, 1, 1) === state && position(id, 2, 2) === state && position(id, 4, 4) === state && position(id, -2, -2) === state) return 44; // 새로 추가
-    else if (position(id, -1, -1) === state && position(id, -3, -3) === state && position(id, -4, -4) === state && position(id, 2, 2) === state && position(id, 3, 3) === state) return 44; // 새로 추가
-    else if (position(id, -1, -1) === state && position(id, -2, -2) === state && position(id, -4, -4) === state && position(id, 2, 2) === state) return 44; // 새로 추가
-    
     for (let i = 1; i <= 4; i++) if (position(id, -i, -i) === state && position(id, -1, -1) !== 2) count++; // 왼쪽 위 방향으로 3개가 다 있는 경우
     if (count === 4 && position(id, 1, 1) !== state && ((position(id, -4, -4) !== 2 || position(id, 1, 1) !== 2) && (position(id, -5, -5) !== 2 || position(id, 1, 1) !== 2))) return true;
     count = 1;
@@ -57,17 +58,16 @@ const checkRightDiagonal = (id, checkNum) => {
     if (count === 4 && position(id, -1, -1) !== state && ((position(id, 4, 4) !== 2 || position(id, -1, -1) !== 2) && (position(id, 5, 5) !== 2 || position(id, -1, -1) !== 2))) return true;
     else if (position(id, -1, -1) !== state && position(id, 1, 1) !== state) return false; // 양쪽이 비었을 경우 안된다.
     else if (position(id, -1, -1) === state && position(id, 1, 1) === state) { // 양쪽이 둘다 차있을 경우
-      if (position(id, -2, -2) === state && (position(id, -3, -3) !== 0 || position(id, 2, 2) !== 2) && position(id, -3, -3) !== state && position(id, 2, 2) !== state) return true;
-      else if (position(id, 2, 2) === 0 && position(id, -2, -2) === 0 && position(id, 3, 3) === state && position(id, -3, -3) === state) return 44; // 새로 추가
+      if (position(id, -2, -2) === state && (position(id, -3, -3) !== 2 || position(id, 2, 2) !== 2) && position(id, -3, -3) !== state && position(id, 2, 2) !== state) return true;
       else if (position(id, -2, -2) === 0 && position(id, -3, -3) === state && (position(id, -4, -4) !== 2 || position(id, 2, 2) !== 2) && position(id, -4, -4) !== state && position(id, 2, 2) !== state) return true;
       else if (position(id, 2, 2) === state && (position(id, 3, 3) !== 2 || position(id, -2, -2) !== 2) && position(id, 3, 3) !== state && position(id, -2, -2) !== state) return true;
       else if (position(id, 2, 2) === 0 && position(id, 3, 3) === state && (position(id, 4, 4) !== 2 || position(id, -2, -2) !== 2) && position(id, 4, 4) !== state && position(id, -2, -2) !== state) return true;
-    } else if (position(id, -1, -1) === 0) { // 왼쪽 위 방향이 비었을 경우
+    } else if (position(id, -1, -1) !== state) { // 왼쪽 위 방향이 비었을 경우
       if (position(id, -2, -2) !== state) return false; // 다음껀 무조건 차있어야한다.
       if (position(id, 1, 1) === state && position(id, -3, -3) === state && (position(id, 2, 2) !== 2 || position(id, -4, -4) !== 2) && position(id, 2, 2) !== state && position(id, -4, -4) !== state) return true;
       else if (position(id, 1, 1) === state && position(id, 2, 2) === state && (position(id, -1, -1) !== 2 || position(id, 3, 3) !== 2) && position(id, -1, -1) !== state && position(id, 3, 3) !== state) return true;
       else return false;
-    } else if (position(id, 1, 1) === 0) { // 오른쪽 아래 방향이 비었을 경우
+    } else { // 오른쪽 아래 방향이 비었을 경우
       if (position(id, 2, 2) !== state) return false; // 다음껀 무조건 차있어야한다.
       if (position(id, -1, -1) === state && position(id, 3, 3) === state && (position(id, -2, -2) !== 2 || position(id, 4, 4) !== 2) && position(id, -2, -2) !== state && position(id, 4, 4) !== state) return true;
       else if (position(id, -1, -1) === state && position(id, -2, -2) === state && (position(id, 1, 1) !== 2 || position(id, -3, -3) !== 2) && position(id, 1, 1) !== state && position(id, -3, -3) !== state) return true;
@@ -97,11 +97,6 @@ const checkLeftDiagonal = (id, checkNum) => {
     for (let i = 1; position(id, i, -i) === state; i++) count++; // 붙어있는 같은 색상들 확인
     for (let i = 1; position(id, -i, i) === state; i++) count++;
   } else if (checkNum === 4) { // 4X4 확인
-    if (position(id, -1, 1) === state && position(id, -3, 3) === state && position(id, -4, 4) === state && position(id, 2, -2) === state && position(id, 3, -3) === state) return 44; // 새로 추가
-    else if (position(id, -1, 1) === state && position(id, -2, 2) === state && position(id, -4, 4) === state && position(id, 2, -2) === state) return 44; // 새로 추가
-    else if (position(id, 1, -1) === state && position(id, 3, -3) === state && position(id, 4, -4) === state && position(id, -2, 2) === state && position(id, -3, 3) === state) return 44; // 새로 추가
-    else if (position(id, 1, -1) === state && position(id, 2, -2) === state && position(id, 4, -4) === state && position(id, -2, 2) === state) return 44; // 새로 추가
-
     for (let i = 1; i <= 4; i++) if (position(id, i, -i) === state && position(id, 1, -1) !== 2) count++; // 왼쪽 아래 방향으로 3개가 다 있는 경우
     if (count === 4 && position(id, -1, 1) !== state && ((position(id, 4, -4) !== 2 || position(id, -1, 1) !== 2) && (position(id, 5, -5) !== 2 || position(id, 1, 1) !== 2))) return true;
     count = 1;
@@ -110,16 +105,15 @@ const checkLeftDiagonal = (id, checkNum) => {
     else if (position(id, 1, -1) !== state && position(id, -1, 1) !== state) return false; // 양쪽이 비었을 경우 안된다.
     else if (position(id, 1, -1) === state && position(id, -1, 1) === state) { // 양쪽이 둘다 차있을 경우
       if (position(id, 2, -2) === state && (position(id, 3, -3) !== 2 || position(id, -2, 2) !== 2) && position(id, 3, -3) !== state && position(id, -2, 2) !== state) return true;
-      else if (position(id, -2, 2) === 0 && position(id, 2, -2) === 0 && position(id, -3, 3) === state && position(id, 3, -3) === state) return 44; // 새로 추가
       else if (position(id, 2, -2) === 0 && position(id, 3, -3) === state && (position(id, 4, -4) !== 2 || position(id, -2, 2) !== 2) && position(id, 3, -3) !== state && position(id, 4, -4) !== state) return true;
       else if (position(id, -2, 2) === state && (position(id, -3, 3) !== 2 || position(id, 2, -2) !== 2) && position(id, -3, 3) !== state && position(id, 2, -2) !== state) return true;
       else if (position(id, -2, 2) === 0 && position(id, -3, 3) === state && (position(id, -4, 4) !== 2 || position(id, 2, -2) !== 2) && position(id, -4, 4) !== state && position(id, 2, -2) !== state) return true;
-    } else if (position(id, 1, -1) === 0) { // 왼쪽 아래 방향이 비었을 경우
+    } else if (position(id, 1, -1) !== state) { // 왼쪽 아래 방향이 비었을 경우
       if (position(id, 2, -2) !== state) return false; // 다음껀 무조건 차있어야한다.
       if (position(id, -1, 1) === state && position(id, 3, -3) === state && (position(id, -2, 2) !== 2 || position(id, 4, -4) !== 2) && position(id, -2, 2) !== state && position(id, 4, -4) !== state) return true;
       else if (position(id, -1, 1) === state && position(id, -2, 2) === state && (position(id, 1, -1) !== 2 || position(id, -3, 3) !== 2) && position(id, 1, -1) !== state && position(id, -3, 3) !== state) return true;
       else return false;
-    } else if (position(id, -1, 1) === 0) { // 오른쪽 위 방향이 비었을 경우
+    } else { // 오른쪽 위 방향이 비었을 경우
       if (position(id, -2, 2) !== state) return false; // 다음껀 무조건 차있어야한다.
       if (position(id, 1, -1) === state && position(id, -3, 3) === state && (position(id, 2, -2) !== 2 || position(id, -4, 4) !== 2) && position(id, 2, -2) !== state && position(id, -4, 4) !== state) return true;
       else if (position(id, 1, -1) === state && position(id, 2, -2) === state && (position(id, -1, 1) !== 2 || position(id, 3, -3) !== 2) && position(id, -1, 1) !== state && position(id, 3, -3) !== state) return true;
@@ -149,11 +143,6 @@ const checkHorizon = (id, checkNum) => {
     for (let i = 1; position(id, 0, -i) === state; i++) count++; // 붙어있는 같은 색상들 확인
     for (let i = 1; position(id, 0, i) === state; i++) count++;
   } else if (checkNum === 4) { // 4X4 확인
-    if (position(id, 0, 1) === state && position(id, 0, 3) === state && position(id, 0, 4) === state && position(id, 0, -2) === state && position(id, 0, -3) === state) return 44; // 새로 추가
-    else if (position(id, 0, 1) === state && position(id, 0, 2) === state && position(id, 0, 4) === state && position(id, 0, -2) === state) return 44; // 새로 추가
-    else if (position(id, 0, -1) === state && position(id, 0, -3) === state && position(id, 0, -4) === state && position(id, 0, 2) === state && position(id, 0, 3) === state) return 44; // 새로 추가
-    else if (position(id, 0, -1) === state && position(id, 0, -2) === state && position(id, 0, -4) === state && position(id, 0, 2) === state) return 44; // 새로 추가
-
     for (let i = 1; i <= 4; i++) if (position(id, 0, -i) === state && position(id, 0, -1) !== 2) count++; // 왼쪽 방향으로 3개가 다 있는 경우
     if (count === 4 && position(id, 0, 1) !== state && ((position(id, 0, -4) !== 2 || position(id, 0, 1) !== 2) && (position(id, 0, -5) !== 2 || position(id, 0, 1) !== 2))) return true;
     count = 1;
@@ -162,16 +151,15 @@ const checkHorizon = (id, checkNum) => {
     else if (position(id, 0, -1) !== state && position(id, 0, 1) !== state) return false; // 양쪽이 비었을 경우 안된다.
     else if (position(id, 0, -1) === state && position(id, 0, 1) === state) { // 양쪽이 둘다 차있을 경우
       if (position(id, 0, -2) === state && (position(id, 0, -3) !== 2 || position(id, 0, 2) !== 2) && position(id, 0, -3) !== state && position(id, 0, 2) !== state) return true;
-      else if (position(id, 0, 2) === 0 && position(id, 0, -2) === 0 && position(id, 0, 3) === state && position(id, 0, -3) === state) return 44; // 새로 추가
       else if (position(id, 0, -2) === 0 && position(id, 0, -3) === state && (position(id, 0, -4) !== 2 || position(id, 0, 2) !== 2) && position(id, 0, -4) !== state && position(id, 0, 2) !== state) return true;
       else if (position(id, 0, 2) === state && (position(id, 0, 3) !== 2 || position(id, 0, -2) !== 2) && position(id, 0, 3) !== state && position(id, 0, -2) !== state) return true;
       else if (position(id, 0, 2) === 0 && position(id, 0, 3) === state && (position(id, 0, 4) !== 2 || position(id, 0, -2) !== 2) && position(id, 0, 4) !== state && position(id, 0, -2) !== state) return true;
-    } else if (position(id, 0, -1) === 0) { // 왼쪽 방향이 비었을 경우
+    } else if (position(id, 0, -1) !== state) { // 왼쪽 방향이 비었을 경우
       if (position(id, 0, -2) !== state) return false; // 다음껀 무조건 차있어야한다.
       if (position(id, 0, 1) === state && position(id, 0, -3) === state && (position(id, 0, 2) !== 2 || position(id, 0, -4) !== 2) && position(id, 0, 2) !== state && position(id, 0, -4) !== state) return true;
       else if (position(id, 0, 1) === state && position(id, 0, 2) === state && (position(id, 0, -1) !== 2 || position(id, 0, 3) !== 2) && position(id, 0, -1) !== state && position(id, 0, 3) !== state) return true;
       else return false;
-    } else if(position(id, 0, 1) === 0) { // 오른쪽 방향이 비었을 경우
+    } else { // 오른쪽 방향이 비었을 경우
       if (position(id, 0, 2) !== state) return false; // 다음껀 무조건 차있어야한다.
       if (position(id, 0, -1) === state && position(id, 0, 3) === state && (position(id, 0, -2) !== 2 || position(id, 0, 4) !== 2) && position(id, 0, -2) !== state && position(id, 0, 4) !== state) return true;
       else if (position(id, 0, -1) === state && position(id, 0, -2) === state && (position(id, 0, 1) !== 2 || position(id, 0, -3) !== 2) && position(id, 0, 1) !== state && position(id, 0, -3) !== state) return true;
@@ -201,11 +189,6 @@ const checkVertical = (id, checkNum) => {
     for (let i = 1; position(id, -i, 0) === state; i++) count++; // 붙어있는 같은 색상들 확인
     for (let i = 1; position(id, i, 0) === state; i++) count++;
   } else if (checkNum === 4) { // 4X4 확인
-    if (position(id, 1, 0) === state && position(id, 3, 0) === state && position(id, 4, 0) === state && position(id, -2, 0) === state && position(id, -3, 0) === state) return 44; // 새로 추가
-    else if (position(id, 1, 0) === state && position(id, 2, 0) === state && position(id, 4, 0) === state && position(id, -2, 0) === state) return 44; // 새로 추가
-    else if (position(id, 1, 0) === state && position(id, 3, 0) === state && position(id, 4, 0) === state && position(id, -2, 0) === state && position(id, -3, 0) === state) return 44; // 새로 추가
-    else if (position(id, 1, 0) === state && position(id, 2, 0) === state && position(id, 4, 0) === state && position(id, -2, 0) === state) return 44; // 새로 추가
-
     for (let i = 1; i <= 4; i++) if (position(id, -i, 0) === state && position(id, -1, 0) !== 2) count++; // 위 방향으로 3개가 다 있는 경우
     if (count === 4 && position(id, 1, 0) !== state && ((position(id, -4, 0) !== 2 || position(id, 1, 0) !== 2) && (position(id, -5, 0) !== 2 || position(id, 1, 0) !== 2))) return true;
     count = 1;
@@ -214,16 +197,15 @@ const checkVertical = (id, checkNum) => {
     else if (position(id, -1, 0) !== state && position(id, 1, 0) !== state) return false; // 양쪽이 비었을 경우 안된다.
     else if (position(id, -1, 0) === state && position(id, 1, 0) === state) { // 양쪽이 둘다 차있을 경우
       if (position(id, -2, 0) === state && (position(id, -3, 0) !== 2 || position(id, 2, 0) !== 2) && position(id, -3, 0) !== state && position(id, 2, 0) !== state) return true;
-      else if (position(id, 2, 0) === 0 && position(id, -2, 0) === 0 && position(id, 3, 0) === state && position(id, -3, 0) === state) return 44; // 새로 추가
       else if (position(id, -2, 0) === 0 && position(id, -3, 0) === state && (position(id, -4, 0) !== 2 || position(id, 2, 0) !== 2) && position(id, -4, 0) !== state && position(id, 2, 0) !== state) return true;
       else if (position(id, 2, 0) === state && (position(id, 3, 0) !== 2 || position(id, -2, 0) !== 2) && position(id, 3, 0) !== state && position(id, -2, 0) !== state) return true;
       else if (position(id, 2, 0) === 0 && position(id, 3, 0) === state && (position(id, 4, 0) !== 2 || position(id, -2, 0) !== 2) && position(id, 4, 0) !== state && position(id, -2, 0) !== state) return true;
-    } else if (position(id, -1, 0) === 0) { // 위 방향이 비었을 경우
+    } else if (position(id, -1, 0) !== state) { // 위 방향이 비었을 경우
       if (position(id, -2, 0) !== state) return false; // 다음껀 무조건 차있어야한다.
       if (position(id, 1, 0) === state && position(id, -3, 0) === state && (position(id, 2, 0) !== 2 || position(id, -4, 0) !== 2) && position(id, 2, 0) !== state && position(id, -4, 0) !== state) return true;
       else if (position(id, 1, 0) === state && position(id, 2, 0) === state && (position(id, -1, 0) !== 2 || position(id, 3, 0) !== 2) && position(id, -1, 0) !== state && position(id, 3, 0) !== state) return true;
       else return false;
-    } else if (position(id, 1, 0) === 0) { // 아래 방향이 비었을 경우
+    } else { // 아래 방향이 비었을 경우
       if (position(id, 2, 0) !== state) return false; // 다음껀 무조건 차있어야한다.
       if (position(id, -1, 0) === state && position(id, 3, 0) === state && (position(id, -2, 0) !== 2 || position(id, 4, 0) !== 2) && position(id, -2, 0) !== state && position(id, 4, 0) !== state) return true;
       else if (position(id, -1, 0) === state && position(id, -2, 0) === state && (position(id, 1, 0) !== 2 || position(id, -3, 0) !== 2) && position(id, 1, 0) !== state && position(id, -3, 0) !== state) return true;
@@ -269,10 +251,8 @@ const checkNone = (id) => {
 
   const checkNum4 = checkArr.reduce((pre, cur) => {
     if (cur === true) pre++;
-    if (cur === 44) pre += 2;
     return pre;
   }, 0);
-
   if (checkNum3 >= 2) { stateArr[row][col] = 3; return 1; }
   if (checkNum4 >= 2) { stateArr[row][col] = 4; return 2; }
 };
@@ -311,10 +291,10 @@ const render = () => {
 const endingPopup = () => {
   $endingPopup.style.visibility = 'visible';
   if (state === 1) {
-    $victoryContent.innerHTML = `${$panelName1.textContent} 승리!`;
+    $victoryContent.innerHTML = `${$panelName1.textContent}가(이) 이겼닭!`;
     $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
   } else {
-    $victoryContent.innerHTML = `${$panelName2.textContent} 승리!`;
+    $victoryContent.innerHTML = `${$panelName2.textContent}가(이) 이겼닭!`;
     $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
   }
 };
@@ -357,8 +337,8 @@ const timerCloser = (() => {
 
 // 턴 활성화
 function active() {
-  document.querySelector('.player-1-panel').classList.toggle('active');
-  document.querySelector('.player-2-panel').classList.toggle('active');
+  $player2Panel.classList.toggle('active');
+  $player1Panel.classList.toggle('active');
   if (state === 1) timerCloser.timer1();
   else timerCloser.timer2();
 }
@@ -370,7 +350,10 @@ const checkVictory = (id) => {
   checkArr.push(checkHorizon(id, 5));
   checkArr.push(checkVertical(id, 5));
 
-  if (checkArr.indexOf(5) !== -1) { return endingPopup(); }
+  if (checkArr.indexOf(5) !== -1) {
+    timerCloser.stopTimer();
+    return endingPopup();
+  }
 };
 
 $space.onclick = ({ target }) => {
@@ -407,24 +390,25 @@ const popupclose = () => {
 const inputName = () => {
   const player1Name = $player1Name.value.trim();
   const player2Name = $player2Name.value.trim();
+  const bettingContent = $bettingList.value.trim();
 
-  if (player1Name === '' || player2Name === '') return;
-
-  popupclose();
   $panelName1.textContent = player1Name;
   $panelName2.textContent = player2Name;
+  $bettingContent.textContent = bettingContent;
+  $player2Panel.classList.add('active');
 };
 
 $startBtn.onclick = () => {
+  if (!$player1Name.value.trim() || !$player2Name.value.trim()) return;
+  popupclose();
   inputName();
-  document.querySelector('.player-2-panel').classList.add('active');
   active();
 };
 
-$player2Name.onkeyup = ({ keyCode }) => {
-  if (keyCode !== 13) return;
+$bettingList.onkeyup = ({keyCode}) => {
+  if (keyCode !== 13 || !$bettingList.value.trim()) return;
+  popupclose();
   inputName();
-  document.querySelector('.player-2-panel').classList.add('active');
   active();
 };
 
@@ -435,7 +419,6 @@ function init() {
 function restart() {
   stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
 
-  timerCloser.timer1();
   let name1 = '';
   let name2 = '';
 
@@ -450,12 +433,15 @@ function restart() {
   $endingPopup.style.visibility = 'hidden';
   $panelName1.textContent = name1;
   $panelName2.textContent = name2;
+  $bettingContent.textContent = $endingBettingContent.value.trim();
 
   if (state === 2) {
-    document.querySelector('.player-2-panel').classList.toggle('active');
-    document.querySelector('.player-1-panel').classList.toggle('active');
+    $player2Panel.classList.toggle('active');
+    $player1Panel.classList.toggle('active');
+  } else {
+    // timerCloser.timer2();
   }
-
+  timerCloser.timer1();
   state = 1;
   render();
 }

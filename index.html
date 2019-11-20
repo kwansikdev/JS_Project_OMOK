@@ -14,19 +14,24 @@
 <body>
   <header>
     <div class="start-popup">
-      <p class="player1">
-        <span>선공</span>
+      <p>
+        <span>먼저 (흑)</span>
         <input type="text" class="player1-name" placeholder="Enter player name">
       </p>
 
-      <p class="player2">
-        <span>후공</span>
+      <p>
+        <span>나중 (백)</span>
         <input type="text" class="player2-name" placeholder="Enter player name">
+      </p>
+
+      <p class="betting">
+        <input type="text" class="betting-list"placeholder="어떤 내기? 'ㅅ'//">
       </p>
 
       <button class="start-button">Start</button>
     </div>
     <div class="overlay"></div>
+    <p class="betting-content"></p>
     <button class="btn-new">판 엎자</button>
   </header>
   <main>
@@ -45,14 +50,17 @@
      <!--ending-popup -->
      <div class="ending-popup">
        <!-- ending-popup content -->
-        <div class="ending-content">
-         <span class="victory-content">승리!</span>
-        <div>
-         <span class="more">한판 더?</span>
-         <button class="victory-yes">좋아요!</button>
-         <button class="victory-no">노놉!</button>
-        </div>
-        </div>
+       <div class="ending-content">
+         <span class="victory-content"></span>
+         <div>
+           <span class="more">한판 더?</span>
+           <span class="ending-betting">
+             <input type="text" class="ending-betting-content" placeholder="이번에는 뭐 걸래? 'ㅅ'//">
+           </span>
+           <button class="victory-yes">좋아요!</button>
+           <button class="victory-no">노놉!</button>
+         </div>
+       </div>
      </div>
 
 
