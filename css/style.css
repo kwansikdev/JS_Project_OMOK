@@ -160,6 +160,7 @@ main {
   background-color: rgb(222, 221, 219);
   /* #003458; */
   color: white;
+  visibility: visible;
 }
 
 .player-2-panel {
@@ -167,6 +168,7 @@ main {
   height: 760px;
   background-color: rgb(188, 180, 178);
   color: white;
+  visibility: visible;
 }
 
 .player-1-panel > .player-name, .player-2-panel > .player-name {

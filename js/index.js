@@ -351,7 +351,14 @@ const checkVictory = (id) => {
   checkArr.push(checkVertical(id, 5));
 
   if (checkArr.indexOf(5) !== -1) {
-    timerCloser.stopTimer();
+    if (state === 2) {
+      $player2Panel.classList.toggle('active');
+      $player1Panel.classList.toggle('active');
+    } else {
+      $player2Panel.classList.toggle('active');
+      $player1Panel.classList.toggle('active');
+    }
+
     return endingPopup();
   }
 };
@@ -419,29 +426,13 @@ function init() {
 function restart() {
   stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
 
-  let name1 = '';
-  let name2 = '';
-
-  if (state === 1) {
-    name1 = $panelName1.textContent;
-    name2 = $panelName2.textContent;
-  } else {
-    name1 = $panelName2.textContent;
-    name2 = $panelName1.textContent;
-  }
-
-  $endingPopup.style.visibility = 'hidden';
-  $panelName1.textContent = name1;
-  $panelName2.textContent = name2;
+  $endingPopup.style.visibility = "hidden";
   $bettingContent.textContent = $endingBettingContent.value.trim();
 
   if (state === 2) {
     $player2Panel.classList.toggle('active');
     $player1Panel.classList.toggle('active');
-  } else {
-    // timerCloser.timer2();
   }
-  timerCloser.timer1();
   state = 1;
   render();
 }
