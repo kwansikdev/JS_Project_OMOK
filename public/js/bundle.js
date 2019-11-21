@@ -10287,9 +10287,11 @@ var $victoryContent = document.querySelector('.victory-content');
 var $more = document.querySelector('.more');
 var $endingBettingContent = document.querySelector('.ending-betting-content');
 var $victoryYes = document.querySelector('.victory-yes');
-var $victoryNo = document.querySelector('.victory-no'); //  배열생성
+var $victoryNo = document.querySelector('.victory-no');
+var $gameRecord = document.querySelector('.rank'); //  배열생성
 
 var SIZE = 19;
+var gameRecord = [];
 var state = 1;
 var stateArr = Array(SIZE).fill(null).map(function () {
   return Array(SIZE).fill(0);
@@ -10579,6 +10581,76 @@ var checkVertical = function checkVertical(id, checkNum) {
   }
 
   return count;
+};
+
+var recordRender = function recordRender() {
+  var html = '';
+  gameRecord.forEach(function (_ref) {
+    var order = _ref.order,
+        winner = _ref.winner,
+        loser = _ref.loser,
+        batting = _ref.batting;
+    html += "\n    <li class=\"order\">".concat(order, "</li>\n    <li class=\"winner\">").concat(winner, "</li>\n    <li class=\"loser\">").concat(loser, "</li>\n    <li class=\"batting\"> ").concat(batting, "</li>");
+  });
+  $gameRecord.innerHTML = html;
+};
+
+var getRecord = function getRecord() {
+  var res;
+  return regeneratorRuntime.async(function getRecord$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return regeneratorRuntime.awrap(axios.get('/gameRecord'));
+
+        case 2:
+          res = _context.sent;
+          gameRecord = res.data;
+          recordRender();
+
+        case 5:
+        case "end":
+          return _context.stop();
+      }
+    }
+  });
+};
+
+var addRecord = function addRecord(player1Name, player2Name, bettingContent) {
+  var winner, loser, res;
+  return regeneratorRuntime.async(function addRecord$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          if (state === 1) {
+            winner = player1Name;
+            loser = player2Name;
+          } else {
+            winner = player2Name;
+            loser = $player1Name;
+          }
+
+          _context2.next = 3;
+          return regeneratorRuntime.awrap(axios.post('/gameRecord', {
+            order: gameRecord.length + 1,
+            winner: winner,
+            loser: loser,
+            betting: bettingContent
+          }));
+
+        case 3:
+          res = _context2.sent;
+          gameRecord = res.data;
+          console.log(res);
+          recordRender();
+
+        case 7:
+        case "end":
+          return _context2.stop();
+      }
+    }
+  });
 }; // 함수
 // 3x3, 4x4 체크
 
@@ -10667,9 +10739,11 @@ var endingPopup = function endingPopup() {
   if (state === 1) {
     $victoryContent.innerHTML = "".concat($panelName1.textContent, "\uAC00(\uC774) \uC774\uACBC\uB2ED!");
     $more.innerHTML = "".concat($panelName1.textContent, " , ").concat($panelName2.textContent, " \uD55C\uD310 \uB354?");
+    addRecord($panelName1.textContent, $panelName2.textContent, $bettingContent.textContent);
   } else {
     $victoryContent.innerHTML = "".concat($panelName2.textContent, "\uAC00(\uC774) \uC774\uACBC\uB2ED!");
     $more.innerHTML = "".concat($panelName1.textContent, " , ").concat($panelName2.textContent, " \uD55C\uD310 \uB354?");
+    addRecord($panelName2.textContent, $panelName1.textContent, $bettingContent.textContent);
   }
 }; // 턴 토글
 
@@ -10766,6 +10840,8 @@ function restart() {
   $bettingContent.textContent = $endingBettingContent.value.trim();
   var name1 = '';
   var name2 = '';
+  $bettingPenalty1.innerHTML = '';
+  $bettingPenalty2.innerHTML = '';
   name1 = $panelName1.textContent;
   name2 = $panelName2.textContent;
   $endingPopup.style.visibility = 'hidden';
@@ -10782,12 +10858,12 @@ function restart() {
 
 function init() {
   window.location.reload();
-} //이벤트
+} // 이벤트
 // 턴에 의한 수놓기 이벤트
 
 
-$space.onclick = function (_ref) {
-  var target = _ref.target;
+$space.onclick = function (_ref2) {
+  var target = _ref2.target;
 
   var _target$id$split = target.id.split(','),
       _target$id$split2 = _slicedToArray(_target$id$split, 2),
@@ -10828,18 +10904,32 @@ $startBtn.onclick = function () {
 }; // 내기 입력란에 엔터에 의한 이벤트
 
 
-$bettingList.onkeyup = function (_ref2) {
-  var keyCode = _ref2.keyCode;
+$bettingList.onkeyup = function (_ref3) {
+  var keyCode = _ref3.keyCode;
   if (keyCode !== 13 || !$bettingList.value.trim()) return;
   popupclose();
   inputName();
   active();
 };
 
-window.onload = render;
+window.onload = function () {
+  render();
+  getRecord();
+};
+
 $victoryNo.addEventListener('click', init);
 $victoryYes.addEventListener('click', restart);
-document.querySelector('.btn-new').addEventListener('click', init);
+document.querySelector('.btn-new').addEventListener('click', init); // server.js와 연결
+// 시작 load(get) 해서 render //끝날 때 값을(post) 저장
+// const getRecord () => {
+// };
+// if (state === 1) {
+//   $victoryContent.innerHTML = `${$panelName1.textContent}가(이) 이겼닭!`;
+//   $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+// } else {
+//   $victoryContent.innerHTML = `${$panelName2.textContent}가(이) 이겼닭!`;
+//   $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+// }
 
 /***/ }),
 

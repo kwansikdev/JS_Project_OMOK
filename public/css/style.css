@@ -11,11 +11,11 @@ html {
 body {
   font-size: 25px;
   padding: 0;
-  background: url(/image/background.png); }
+  background: url(../image/background.png); }
 
 header {
   margin: 0 auto;
-  padding: 25px 25px 25px 0;
+  padding: 25px 0;
   position: relative;
   text-align: right; }
 
@@ -132,7 +132,7 @@ main {
   height: 100%;
   box-shadow: 5px 5px 0 0 rgba(226, 11, 11, 0.5), -5px -5px 0 0 rgba(226, 11, 11, 0.5);
   border-radius: 20%;
-  /* background: url(/image/black-stone.png); */ }
+  /* background: url(../image/black-stone.png); */ }
 
 .black-circle {
   display: inline-block;
@@ -140,7 +140,7 @@ main {
   height: 100%;
   /* border: 1px solid #000; */
   /* border-radius: 20%; */
-  background: url(/image/black-stone.png); }
+  background: url(../image/black-stone.png); }
 
 .white-circle {
   display: inline-block;
@@ -148,7 +148,7 @@ main {
   height: 100%;
   /* border: 1px solid #fff;
   border-radius: 20%; */
-  background: url(/image/white-stone.png); }
+  background: url(../image/white-stone.png); }
 
 .fa-times {
   color: red;
