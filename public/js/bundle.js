@@ -10579,7 +10579,9 @@ var checkVertical = function checkVertical(id, checkNum) {
   }
 
   return count;
-};
+}; // 함수
+// 3x3, 4x4 체크
+
 
 var checkNone = function checkNone(id) {
   var _id$split3 = id.split(','),
@@ -10640,7 +10642,24 @@ var render = function render() {
     html += '</tr>';
   });
   $space.innerHTML = html;
+}; // POPUP UI
+
+
+var popupclose = function popupclose() {
+  $startPopup.style.display = 'none';
+  $overlay.style.display = 'none';
 };
+
+var inputName = function inputName() {
+  var player1Name = $player1Name.value.trim();
+  var player2Name = $player2Name.value.trim();
+  var bettingContent = $bettingList.value.trim();
+  $panelName1.textContent = player1Name;
+  $panelName2.textContent = player2Name;
+  $bettingContent.textContent = bettingContent;
+  $player2Panel.classList.add('active');
+}; // 엔딩팝업
+
 
 var endingPopup = function endingPopup() {
   $endingPopup.style.visibility = 'visible';
@@ -10651,6 +10670,39 @@ var endingPopup = function endingPopup() {
   } else {
     $victoryContent.innerHTML = "".concat($panelName2.textContent, "\uAC00(\uC774) \uC774\uACBC\uB2ED!");
     $more.innerHTML = "".concat($panelName1.textContent, " , ").concat($panelName2.textContent, " \uD55C\uD310 \uB354?");
+  }
+}; // 턴 토글
+
+
+var toggleActive = function toggleActive() {
+  $player2Panel.classList.toggle('active');
+  $player1Panel.classList.toggle('active');
+}; // 승리조건확인
+
+
+var checkVictory = function checkVictory(id) {
+  var checkArr = []; // 동시에 5가 2개가 되었을 때 하나만 출력해주기 위해 배열에 넣어주었음
+
+  checkArr.push(checkRightDiagonal(id, 5));
+  checkArr.push(checkLeftDiagonal(id, 5));
+  checkArr.push(checkHorizon(id, 5));
+  checkArr.push(checkVertical(id, 5));
+  checkArr = checkArr.map(function (count) {
+    if (state === 2 && count >= 5) count = 5; // 흰색이긴거
+
+    return count;
+  });
+
+  if (checkArr.indexOf(5) !== -1) {
+    if (state === 1) {
+      $player2Panel.classList.toggle('active');
+      $player1Panel.classList.toggle('active');
+    } else {
+      $player2Panel.classList.toggle('active');
+      $player1Panel.classList.toggle('active');
+    }
+
+    return endingPopup();
   }
 }; // Timer
 
@@ -10701,36 +10753,38 @@ var timerCloser = function () {
 
 
 function active() {
-  $player2Panel.classList.toggle('active');
-  $player1Panel.classList.toggle('active');
+  toggleActive();
   if (state === 1) timerCloser.timer1();else timerCloser.timer2();
-}
+} // 재시작
 
-var checkVictory = function checkVictory(id) {
-  var checkArr = []; // 동시에 5가 2개가 되었을 때 하나만 출력해주기 위해 배열에 넣어주었음
 
-  checkArr.push(checkRightDiagonal(id, 5));
-  checkArr.push(checkLeftDiagonal(id, 5));
-  checkArr.push(checkHorizon(id, 5));
-  checkArr.push(checkVertical(id, 5));
-  checkArr = checkArr.map(function (count) {
-    if (state === 2 && count >= 5) count = 5; // 흰색이긴거
-
-    return count;
+function restart() {
+  stateArr = Array(SIZE).fill(null).map(function () {
+    return Array(SIZE).fill(0);
   });
+  $endingPopup.style.visibility = 'hidden';
+  $bettingContent.textContent = $endingBettingContent.value.trim();
+  var name1 = '';
+  var name2 = '';
+  name1 = $panelName1.textContent;
+  name2 = $panelName2.textContent;
+  $endingPopup.style.visibility = 'hidden';
+  $panelName2.textContent = name1;
+  $panelName1.textContent = name2;
+  if (state === 1) toggleActive(); // 초기화설정
 
-  if (checkArr.indexOf(5) !== -1) {
-    if (state === 1) {
-      $player2Panel.classList.toggle('active');
-      $player1Panel.classList.toggle('active');
-    } else {
-      $player2Panel.classList.toggle('active');
-      $player1Panel.classList.toggle('active');
-    }
+  state = 1;
+  timerCloser.stopTimer();
+  if (state === 1) timerCloser.timer1();else timerCloser.timer2();
+  render();
+} // 초기화(처음으로)
 
-    return endingPopup();
-  }
-};
+
+function init() {
+  window.location.reload();
+} //이벤트
+// 턴에 의한 수놓기 이벤트
+
 
 $space.onclick = function (_ref) {
   var target = _ref.target;
@@ -10759,30 +10813,20 @@ $space.onclick = function (_ref) {
 
   active();
   render();
-}; // POPUP UI
+}; // 시작 버튼에 의한 이벤트
 
-
-var popupclose = function popupclose() {
-  $startPopup.style.display = 'none';
-  $overlay.style.display = 'none';
-};
-
-var inputName = function inputName() {
-  var player1Name = $player1Name.value.trim();
-  var player2Name = $player2Name.value.trim();
-  var bettingContent = $bettingList.value.trim();
-  $panelName1.textContent = player1Name;
-  $panelName2.textContent = player2Name;
-  $bettingContent.textContent = bettingContent;
-  $player2Panel.classList.add('active');
-};
 
 $startBtn.onclick = function () {
-  if (!$player1Name.value.trim() || !$player2Name.value.trim()) return;
+  if (!$player1Name.value.trim() || !$player2Name.value.trim()) {
+    $player1Name.value = 'Player1';
+    $player2Name.value = 'Player2'; // return;
+  }
+
   popupclose();
   inputName();
   active();
-};
+}; // 내기 입력란에 엔터에 의한 이벤트
+
 
 $bettingList.onkeyup = function (_ref2) {
   var keyCode = _ref2.keyCode;
@@ -10791,36 +10835,6 @@ $bettingList.onkeyup = function (_ref2) {
   inputName();
   active();
 };
-
-function init() {
-  window.location.reload();
-}
-
-function restart() {
-  stateArr = Array(SIZE).fill(null).map(function () {
-    return Array(SIZE).fill(0);
-  });
-  $endingPopup.style.visibility = 'hidden';
-  $bettingContent.textContent = $endingBettingContent.value.trim();
-  var name1 = '';
-  var name2 = '';
-  name1 = $panelName1.textContent;
-  name2 = $panelName2.textContent;
-  $endingPopup.style.visibility = 'hidden';
-  $panelName2.textContent = name1;
-  $panelName1.textContent = name2;
-
-  if (state === 1) {
-    $player2Panel.classList.toggle('active');
-    $player1Panel.classList.toggle('active');
-  } // 초기화설정
-
-
-  state = 1;
-  timerCloser.stopTimer();
-  if (state === 1) timerCloser.timer1();else timerCloser.timer2();
-  render();
-}
 
 window.onload = render;
 $victoryNo.addEventListener('click', init);
