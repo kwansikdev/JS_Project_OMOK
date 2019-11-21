@@ -1,19 +1,19 @@
 const express = require('express');
 
 const app = express();
-let gameRecode = [];
+let gameRecord = [];
 
 app.use(express.static('public'));
 app.use(express.json()); // for parsing application/json
 
-app.get('/gameRecode', (req, res) => {
-  res.send(gameRecode);
+app.get('/gameRecord', (req, res) => {
+  res.send(gameRecord);
 });
 
-app.post('/gameRecode', (req, res) => {
+app.post('/gameRecord', (req, res) => {
   console.log(req.body);
-  gameRecode = [...gameRecode, req.body];
-  res.send(gameRecode);
+  gameRecord = [...gameRecord, req.body];
+  res.send(gameRecord);
 });
 
 app.listen(3000, () => {

@@ -29,10 +29,15 @@ const $endingBettingContent = document.querySelector('.ending-betting-content');
 const $victoryYes = document.querySelector('.victory-yes');
 const $victoryNo = document.querySelector('.victory-no');
 
+<<<<<<< HEAD
+=======
+const $gameRecord = document.querySelector('.rank');
+>>>>>>> 7302d8b0c92379cc3f0726de08f01c1547937369
 //  배열생성
 const $space = document.querySelector('.space');
 
 const SIZE = 19;
+let gameRecord = [];
 let state = 1;
 
 let stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
@@ -165,7 +170,6 @@ const checkLeftDiagonal = (id, checkNum) => {
   return count;
 };
 
-
 const checkHorizon = (id, checkNum) => {
   let count = 1;
 
@@ -284,6 +288,41 @@ const checkVertical = (id, checkNum) => {
   return count;
 };
 
+const recordRender = () => {
+  let html = '';
+  gameRecord.forEach(({ order, winner, loser, batting }) => {
+    html += `
+    <li class="order">${order}</li>
+    <li class="winner">${winner}</li>
+    <li class="loser">${loser}</li>
+    <li class="batting"> ${batting}</li>`;
+  });
+
+  $gameRecord.innerHTML = html;
+};
+
+const getRecord = async () => {
+  const res = await axios.get('/gameRecord');
+  gameRecord = res.data;
+  recordRender();
+};
+
+const addRecord = async (player1Name, player2Name, bettingContent) => {
+  let winner;
+  let loser;
+  if (state === 1) {
+    winner = player1Name;
+    loser = player2Name;
+  } else {
+    winner = player2Name;
+    loser = $player1Name;
+  }
+  const res = await axios.post('/gameRecord', { order: gameRecord.length + 1, winner, loser, betting: bettingContent });
+  gameRecord = res.data;
+  console.log(res);
+  recordRender();
+};
+
 // 함수
 // 3x3, 4x4 체크
 const checkNone = (id) => {
@@ -371,9 +410,11 @@ const endingPopup = () => {
   if (state === 1) {
     $victoryContent.innerHTML = `${$panelName1.textContent}가(이) 이겼닭!`;
     $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+    addRecord($panelName1.textContent, $panelName2.textContent, $bettingContent.textContent);
   } else {
     $victoryContent.innerHTML = `${$panelName2.textContent}가(이) 이겼닭!`;
     $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+    addRecord($panelName2.textContent, $panelName1.textContent, $bettingContent.textContent);
   }
 };
 
@@ -404,7 +445,6 @@ const checkVictory = (id) => {
       $player2Panel.classList.toggle('active');
       $player1Panel.classList.toggle('active');
     }
-
     return endingPopup();
   }
 };
@@ -453,7 +493,7 @@ const timerCloser = (() => {
 
 // 턴 활성화
 function active() {
-  toggleActive()
+  toggleActive();
   if (state === 1) timerCloser.timer1();
   else timerCloser.timer2();
 }
@@ -467,6 +507,8 @@ function restart() {
 
   let name1 = '';
   let name2 = '';
+  $bettingPenalty1.innerHTML = '';
+  $bettingPenalty2.innerHTML = '';
 
   name1 = $panelName1.textContent;
   name2 = $panelName2.textContent;
@@ -474,7 +516,6 @@ function restart() {
   $endingPopup.style.visibility = 'hidden';
   $panelName2.textContent = name1;
   $panelName1.textContent = name2;
-
   if (state === 1) toggleActive();
 
   // 초기화설정
@@ -490,7 +531,7 @@ function init() {
   window.location.reload();
 }
 
-//이벤트
+// 이벤트
 // 턴에 의한 수놓기 이벤트
 $space.onclick = ({ target }) => {
   const [row, col] = target.id.split(',');
@@ -537,7 +578,25 @@ $bettingList.onkeyup = ({ keyCode }) => {
   active();
 };
 
-window.onload = render;
+window.onload = () => {
+  render();
+  getRecord();
+};
 $victoryNo.addEventListener('click', init);
 $victoryYes.addEventListener('click', restart);
 document.querySelector('.btn-new').addEventListener('click', init);
+
+// server.js와 연결
+// 시작 load(get) 해서 render //끝날 때 값을(post) 저장
+
+// const getRecord () => {
+
+// };
+
+// if (state === 1) {
+//   $victoryContent.innerHTML = `${$panelName1.textContent}가(이) 이겼닭!`;
+//   $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+// } else {
+//   $victoryContent.innerHTML = `${$panelName2.textContent}가(이) 이겼닭!`;
+//   $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+// }

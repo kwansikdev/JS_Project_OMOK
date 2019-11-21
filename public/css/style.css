@@ -16,7 +16,12 @@ body {
 header {
   margin: 0 auto;
   padding: 25px 0;
+<<<<<<< HEAD
   display: flex; }
+=======
+  position: relative;
+  text-align: right; }
+>>>>>>> 7302d8b0c92379cc3f0726de08f01c1547937369
 
 .start-popup {
   /* display: none; */
@@ -137,7 +142,7 @@ main {
   height: 100%;
   box-shadow: 5px 5px 0 0 rgba(226, 11, 11, 0.5), -5px -5px 0 0 rgba(226, 11, 11, 0.5);
   border-radius: 20%;
-  /* background: url(/image/black-stone.png); */ }
+  /* background: url(../image/black-stone.png); */ }
 
 .black-circle {
   display: inline-block;
