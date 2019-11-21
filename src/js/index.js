@@ -7,6 +7,7 @@ const $bettingList = document.querySelector('.betting-list');
 const $startBtn = document.querySelector('.start-button');
 const $overlay = document.querySelector('.overlay');
 const $bettingContent = document.querySelector('.betting-content');
+const $rank = document.querySelector('.rank');
 
 // player-panel
 const $player1Panel = document.querySelector('.player-1-panel');
@@ -30,13 +31,14 @@ const $victoryNo = document.querySelector('.victory-no');
 
 const $gameRecord = document.querySelector('.rank');
 //  배열생성
+const $space = document.querySelector('.space');
+
 const SIZE = 19;
 let gameRecord = [];
 let state = 1;
 
 let stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
 
-const $space = document.querySelector('.space');
 
 // stateArr 배열에서의 값 리턴 (0, 0) 자기위치
 const position = (id, x, y) => {
@@ -285,12 +287,11 @@ const checkVertical = (id, checkNum) => {
 
 const recordRender = () => {
   let html = '';
-  gameRecord.forEach(({ order, winner, loser, batting }) => {
-    html += `
-    <li class="order">${order}</li>
-    <li class="winner">${winner}</li>
-    <li class="loser">${loser}</li>
-    <li class="batting"> ${batting}</li>`;
+  gameRecord.forEach(({ order, winner, loser, betting }) => {
+    html += `<li class="order">${order}.
+      <span>${winner}(승) vs ${loser}(패)</span>
+      <span>  ${betting}</span>
+      </li>`;
   });
 
   $gameRecord.innerHTML = html;
@@ -385,6 +386,7 @@ const render = () => {
 const popupclose = () => {
   $startPopup.style.display = 'none';
   $overlay.style.display = 'none';
+  $rank.style.display = 'none';
 };
 
 const inputName = () => {
@@ -514,6 +516,7 @@ function restart() {
 
   // 초기화설정
   state = 1;
+  $endingBettingContent.value = '';
   timerCloser.stopTimer();
   if (state === 1) timerCloser.timer1();
   else timerCloser.timer2();
@@ -556,6 +559,7 @@ $startBtn.onclick = () => {
     // return;
   }
 
+  $space.style.visibility = 'visible';
   popupclose();
   inputName();
   active();
@@ -564,10 +568,18 @@ $startBtn.onclick = () => {
 // 내기 입력란에 엔터에 의한 이벤트
 $bettingList.onkeyup = ({ keyCode }) => {
   if (keyCode !== 13 || !$bettingList.value.trim()) return;
+
+  $space.style.visibility = 'visible';
   popupclose();
   inputName();
   active();
 };
+
+// $endingBettingContent.onkeyup = ({ keyCode }) => {
+//   if (keyCode !== 13 || !$endingBettingConten.value.trim()) return;
+
+//   restart();
+// };
 
 window.onload = () => {
   render();

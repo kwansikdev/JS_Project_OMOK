@@ -19,7 +19,6 @@ header {
   margin: 0 auto;
   padding: 25px 0;
   position: relative;
-  text-align: right;
 }
 
 .active {
@@ -49,17 +48,15 @@ header {
 // }
 
 .start-popup {
-  /* display: none; */
-  background: rgba(255, 255, 255, 0.5);
+  background: url(/image/memo.png) no-repeat;
+  background-size: 760px 780px;
   position: absolute;
-  top: 80px;
-  left: calc(50% - 380px);
+  top: 100px;
+  left: calc(20% - 50px);
   width: 760px;
   height: 760px;
   z-index: 2;
   border-radius: 10%;
-  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
-
   text-align: center;
   font-size: 50px;
 }
@@ -72,15 +69,19 @@ header {
   margin-top: 80px;
 }
 
-.rank-system {
-  background: rgba(255, 255, 255, 0.9);
+.rank {
+  background: url(/image/rank.png) no-repeat;
+  background-size: 380px 760px;
   position: absolute;
   width: 380px;
-  height: 380px;
-  top: 480px;
-  right: 350px;
+  height: 760px;
+  top: 100px;
+  right: calc(20% - 30px);
+  padding: 100px 50px 80px 50px;
   border-radius: 75px;
   z-index: 2;
+  list-style-type: none;
+  display: block;
 }
 
 .player1-name, .player2-name, .betting > input[type="text"] {
@@ -124,8 +125,9 @@ header {
 
 .btn-new {
   font-size: 40px !important;
+  position: absolute;
   width: 150px;
-  top: 0;
+  top: 25px;
   right: 20px;
   height: 50px;
   background-color: lightgrey;
@@ -158,6 +160,7 @@ main {
   border-spacing: 0px;
   text-align: center;
   vertical-align: center;
+  visibility: hidden;
 }
 
 .space td {
@@ -228,9 +231,10 @@ main {
   height: 750px; }
 
 .player-1-panel > .player-name, .player-2-panel > .player-name {
-  margin: 20px 0;
+  // padding: 20px 0;
   font-size: 60px;
   text-align: center;
+  margin-top : 150px;
 }
 
 .player-timer1, .player-timer2{
@@ -249,7 +253,7 @@ main {
 }
 
 .betting-penalty1, .betting-penalty2 {
-  margin: 40px 0;
+  padding: 40px 0;
   text-align: center;
   font-size: 40px;
   visibility: hidden;
@@ -268,6 +272,7 @@ main {
   margin: 20px 0;
   font-size: 60px;
   visibility: visible;
+  margin-top : 150px;
   /* font-weight: 500; */
 }
 
