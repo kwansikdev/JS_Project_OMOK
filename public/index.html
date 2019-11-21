@@ -13,63 +13,74 @@
   <link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <div class="start-popup">
-      <p>
-        <span>먼저 (흑)</span>
-        <input type="text" class="player1-name" placeholder="Enter player name">
-      </p>
+    <header>
+      <div class="start-popup">
+        <p>
+          <span>난 흑돌</span>
+          <input type="text" class="player1-name" placeholder="Enter player name">
+        </p>
 
-      <p>
-        <span>나중 (백)</span>
-        <input type="text" class="player2-name" placeholder="Enter player name">
-      </p>
+        <p>
+          <span>난 백돌</span>
+          <input type="text" class="player2-name" placeholder="Enter player name">
+        </p>
 
-      <p class="betting">
-        <input type="text" class="betting-list"placeholder="어떤 내기? 'ㅅ'//">
-      </p>
+        <p class="betting">
+          <input type="text" class="betting-list"placeholder="뭐 걸거야? 'ㅅ'//">
+        </p>
 
-      <button class="start-button">Start</button>
-    </div>
-    <div class="overlay"></div>
-    <p class="betting-content"></p>
-    <button class="btn-new">판 엎자</button>
-  </header>
-  <main>
+        <p class="betting-content"></p>
 
-    <div class="player-1-panel">
-      <div class="player-name">Player 1</div>
-      <div class="player-timer1">0</div>
-      <div class="betting-penalty1"></div>
-    </div>
-    <table class="space">
-    </table>
-    <div class="player-2-panel">
-      <div class="player-name">Player 2</div>
-      <div class="player-timer2">0</div>
-      <div class="betting-penalty2"></div>
-    </div>
+        <button class="start-button">Start</button>
+      </div>
+      <ul class="rank">
 
-     <!--ending-popup -->
-     <div class="ending-popup">
-       <!-- ending-popup content -->
-       <div class="ending-content">
-         <span class="victory-content"></span>
-         <div>
-           <span class="more">한판 더?</span>
-           <span class="ending-betting">
-             <input type="text" class="ending-betting-content" placeholder="이번에는 뭐 걸래? 'ㅅ'//">
-           </span>
-           <button class="victory-yes">좋아요!</button>
-           <button class="victory-no">노놉!</button>
+      </ul>
+      <div class="overlay"></div>
+      <button class="btn-new">판 엎자</button>
+    </header>
+    <main>
+      <div class="player-1-panel">
+        <canvas id="canvas"></canvas>
+        <div class="player-name">Player 1</div>
+        <div class="player-timer1">0</div>
+        <div class="betting-penalty1"></div>
+        <!-- <div class="img1">
+            <img src="/image/good.png" alt="penalty">
+        </div> -->
+      </div>
+      <table class="space">
+      </table>
+      <div class="player-2-panel">
+        <canvas id="canvas"></canvas>
+        <div class="player-name">Player 2</div>
+        <div class="player-timer2">0</div>
+        <div class="betting-penalty2"></div>
+        <!-- <div class="img2">
+            <img src="/image/good.png" alt="penalty">
+        </div> -->
+      </div>
+
+       <!--ending-popup -->
+       <div class="ending-popup">
+         <!-- ending-popup content -->
+         <div class="ending-content">
+           <span class="victory-content"></span>
+           <div>
+             <span class="more">한판 더?</span>
+             <span class="ending-betting">
+               <input type="text" class="ending-betting-content" placeholder="이번에는 뭐 걸래? 'ㅅ'//">
+             </span>
+             <button class="victory-yes">좋아요!</button>
+             <button class="victory-no">노놉!</button>
+           </div>
          </div>
        </div>
-     </div>
 
 
-  </main>
-  <footer>
-    <p>&copy; Copyright 2019 형그니와 으른둘</p>
-  </footer>
-</body>
-</html>
+    </main>
+    <footer>
+      <p>&copy; Copyright 2019 형그니와 으른둘</p>
+    </footer>
+  </body>
+  </html>
