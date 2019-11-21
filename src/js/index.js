@@ -289,8 +289,8 @@ const recordRender = () => {
   let html = '';
   gameRecord.forEach(({ order, winner, loser, betting }) => {
     html += `<li class="order">${order}.
-      <span>${winner}(승) vs ${loser}(패)</span>
-      <span>  ${betting}</span>
+      <span>${winner}(승) vs ${loser}(패)</span><br>
+      <span>&nbsp&nbsp&nbsp"${betting}"</span>
       </li>`;
   });
 

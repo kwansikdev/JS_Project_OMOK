@@ -12,7 +12,8 @@ html {
 body {
   font-size: 25px;
   padding: 0;
-  // background: url(/image/background.png);
+  background: url(/image/작은펭수2.png) no-repeat;
+  background-size: cover;
 }
 
 header {
@@ -82,6 +83,7 @@ header {
   z-index: 2;
   list-style-type: none;
   display: block;
+  color: #fff;
 }
 
 .player1-name, .player2-name, .betting > input[type="text"] {
@@ -128,7 +130,7 @@ header {
   position: absolute;
   width: 150px;
   top: 25px;
-  right: 20px;
+  right: 50px;
   height: 50px;
   background-color: lightgrey;
   color: white;
@@ -148,7 +150,7 @@ header {
 
 main {
   display: flex;
-  /* padding: 0 20px; */
+  padding: 0 50px;
 }
 
 .space {
@@ -205,7 +207,7 @@ main {
 }
 
 .player-1-panel {
-  width: 300px;
+  width: 400px;
   height: 100px;
   background: url(/image/scroll.png);
   color: #000;
@@ -215,7 +217,7 @@ main {
 }
 
 .player-2-panel {
-  width: 300px;
+  width: 400px;
   height: 100px;
   background: url(/image/scroll.png);
   color: #000;

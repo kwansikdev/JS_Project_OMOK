@@ -10591,7 +10591,7 @@ var recordRender = function recordRender() {
         winner = _ref.winner,
         loser = _ref.loser,
         betting = _ref.betting;
-    html += "<li class=\"order\">".concat(order, ".\n      <span>").concat(winner, "(\uC2B9) vs ").concat(loser, "(\uD328)</span>\n      <span>  ").concat(betting, "</span>\n      </li>");
+    html += "<li class=\"order\">".concat(order, ".\n      <span>").concat(winner, "(\uC2B9) vs ").concat(loser, "(\uD328)</span><br>\n      <span>&nbsp&nbsp&nbsp\"").concat(betting, "\"</span>\n      </li>");
   });
   $gameRecord.innerHTML = html;
 };
