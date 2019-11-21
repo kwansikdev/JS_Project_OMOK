@@ -16,15 +16,19 @@ body {
 header {
   margin: 0 auto;
   padding: 25px 0;
+<<<<<<< HEAD
+  display: flex; }
+=======
   position: relative;
   text-align: right; }
+>>>>>>> 7302d8b0c92379cc3f0726de08f01c1547937369
 
 .start-popup {
   /* display: none; */
   background: rgba(255, 255, 255, 0.5);
   position: absolute;
-  top: 80px;
-  left: calc(50% - 380px);
+  top: 100px;
+  left: calc(20% - 50px);
   width: 760px;
   height: 760px;
   z-index: 2;
@@ -40,15 +44,19 @@ header {
   /* justify-content: space-between; */
   margin-top: 80px; }
 
-.rank-system {
-  background: rgba(255, 255, 255, 0.9);
+.rank {
+  background: rgba(255, 255, 255, 0.5);
   position: absolute;
   width: 380px;
-  height: 380px;
-  top: 480px;
-  right: 350px;
+  height: 760px;
+  top: 100px;
+  right: calc(20% - 50px);
+  padding: 50px;
   border-radius: 75px;
-  z-index: 2; }
+  z-index: 2;
+  list-style-type: none;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
+  display: block; }
 
 .player1-name, .player2-name, .betting > input[type="text"] {
   font-size: 50px;
@@ -87,8 +95,9 @@ header {
 
 .btn-new {
   font-size: 40px !important;
+  position: absolute;
   width: 150px;
-  top: 0;
+  top: 25px;
   right: 20px;
   height: 50px;
   background-color: lightgrey;
@@ -116,7 +125,8 @@ main {
   height: 764px;
   border-spacing: 0px;
   text-align: center;
-  vertical-align: center; }
+  vertical-align: center;
+  visibility: hidden; }
 
 .space td {
   width: 40px;
@@ -170,7 +180,7 @@ main {
   visibility: visible; }
 
 .player-1-panel > .player-name, .player-2-panel > .player-name {
-  margin: 20px 0;
+  padding: 20px 0;
   font-size: 60px;
   text-align: center; }
 
@@ -187,7 +197,7 @@ main {
   visibility: visible; }
 
 .betting-penalty1, .betting-penalty2 {
-  margin: 40px 0;
+  padding: 40px 0;
   text-align: center;
   font-size: 40px;
   visibility: hidden; }

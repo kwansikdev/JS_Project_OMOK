@@ -7,6 +7,7 @@ const $bettingList = document.querySelector('.betting-list');
 const $startBtn = document.querySelector('.start-button');
 const $overlay = document.querySelector('.overlay');
 const $bettingContent = document.querySelector('.betting-content');
+const $rank = document.querySelector('.rank');
 
 // player-panel
 const $player1Panel = document.querySelector('.player-1-panel');
@@ -28,15 +29,19 @@ const $endingBettingContent = document.querySelector('.ending-betting-content');
 const $victoryYes = document.querySelector('.victory-yes');
 const $victoryNo = document.querySelector('.victory-no');
 
+<<<<<<< HEAD
+=======
 const $gameRecord = document.querySelector('.rank');
+>>>>>>> 7302d8b0c92379cc3f0726de08f01c1547937369
 //  배열생성
+const $space = document.querySelector('.space');
+
 const SIZE = 19;
 let gameRecord = [];
 let state = 1;
 
 let stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
 
-const $space = document.querySelector('.space');
 
 // stateArr 배열에서의 값 리턴 (0, 0) 자기위치
 const position = (id, x, y) => {
@@ -385,6 +390,7 @@ const render = () => {
 const popupclose = () => {
   $startPopup.style.display = 'none';
   $overlay.style.display = 'none';
+  $rank.style.display = 'none';
 };
 
 const inputName = () => {
@@ -556,6 +562,7 @@ $startBtn.onclick = () => {
     // return;
   }
 
+  $space.style.visibility = 'visible';
   popupclose();
   inputName();
   active();
@@ -564,6 +571,8 @@ $startBtn.onclick = () => {
 // 내기 입력란에 엔터에 의한 이벤트
 $bettingList.onkeyup = ({ keyCode }) => {
   if (keyCode !== 13 || !$bettingList.value.trim()) return;
+
+  $space.style.visibility = 'visible';
   popupclose();
   inputName();
   active();

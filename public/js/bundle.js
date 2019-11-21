@@ -10270,7 +10270,8 @@ var $player2Name = document.querySelector('.player2-name');
 var $bettingList = document.querySelector('.betting-list');
 var $startBtn = document.querySelector('.start-button');
 var $overlay = document.querySelector('.overlay');
-var $bettingContent = document.querySelector('.betting-content'); // player-panel
+var $bettingContent = document.querySelector('.betting-content');
+var $rank = document.querySelector('.rank'); // player-panel
 
 var $player1Panel = document.querySelector('.player-1-panel');
 var $player2Panel = document.querySelector('.player-2-panel');
@@ -10290,13 +10291,13 @@ var $victoryYes = document.querySelector('.victory-yes');
 var $victoryNo = document.querySelector('.victory-no');
 var $gameRecord = document.querySelector('.rank'); //  배열생성
 
+var $space = document.querySelector('.space');
 var SIZE = 19;
 var gameRecord = [];
 var state = 1;
 var stateArr = Array(SIZE).fill(null).map(function () {
   return Array(SIZE).fill(0);
-});
-var $space = document.querySelector('.space'); // stateArr 배열에서의 값 리턴 (0, 0) 자기위치
+}); // stateArr 배열에서의 값 리턴 (0, 0) 자기위치
 
 var position = function position(id, x, y) {
   var _id$split = id.split(','),
@@ -10720,6 +10721,7 @@ var render = function render() {
 var popupclose = function popupclose() {
   $startPopup.style.display = 'none';
   $overlay.style.display = 'none';
+  $rank.style.display = 'none';
 };
 
 var inputName = function inputName() {
@@ -10898,6 +10900,7 @@ $startBtn.onclick = function () {
     $player2Name.value = 'Player2'; // return;
   }
 
+  $space.style.visibility = 'visible';
   popupclose();
   inputName();
   active();
@@ -10907,6 +10910,7 @@ $startBtn.onclick = function () {
 $bettingList.onkeyup = function (_ref3) {
   var keyCode = _ref3.keyCode;
   if (keyCode !== 13 || !$bettingList.value.trim()) return;
+  $space.style.visibility = 'visible';
   popupclose();
   inputName();
   active();
