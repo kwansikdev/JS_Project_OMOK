@@ -10,14 +10,19 @@ html {
 
 body {
   font-size: 25px;
-  padding: 0;
-  background: url(../image/background.png); }
+  padding: 0; 
+}
 
 header {
   margin: 0 auto;
   padding: 25px 0;
   position: relative;
   text-align: right; }
+
+.active {
+  /* overflow: hidden; */
+  animation: scroll-down 0.6s cubic-bezier(1, 1, 1, 1) 0.3s;
+  animation-fill-mode: forwards; }
 
 .start-popup {
   /* display: none; */
@@ -155,19 +160,28 @@ main {
   font-size: 40px; }
 
 .player-1-panel {
-  width: 200px;
-  height: 760px;
-  background-color: #dedddb;
-  /* #003458; */
-  color: white;
-  visibility: visible; }
+  width: 300px;
+  height: 100px;
+  background: url(../image/scroll.png);
+  color: #000;
+  visibility: visible;
+  overflow: hidden;
+  transition: height 0.4s 0s; }
 
 .player-2-panel {
-  width: 200px;
-  height: 760px;
-  background-color: #bcb4b2;
-  color: white;
-  visibility: visible; }
+  width: 300px;
+  height: 100px;
+  background: url(../image/scroll.png);
+  color: #000;
+  visibility: visible;
+  overflow: hidden;
+  transition: height 0.4s 0s; }
+
+.active.player-1-panel {
+  height: 750px; }
+
+.active.player-2-panel {
+  height: 750px; }
 
 .player-1-panel > .player-name, .player-2-panel > .player-name {
   margin: 20px 0;
@@ -197,9 +211,6 @@ main {
 
 .active .betting-penalty2 {
   visibility: visible; }
-
-.active {
-  background-color: #660000; }
 
 .active .player-name {
   margin: 20px 0;
