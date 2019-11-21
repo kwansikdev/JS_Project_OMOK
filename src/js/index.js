@@ -311,7 +311,7 @@ const addRecord = async (player1Name, player2Name, bettingContent) => {
     loser = player2Name;
   } else {
     winner = player2Name;
-    loser = $player1Name;
+    loser = player1Name;
   }
   const res = await axios.post('/gameRecord', { order: gameRecord.length + 1, winner, loser, betting: bettingContent });
   gameRecord = res.data;

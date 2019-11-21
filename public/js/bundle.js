@@ -10629,7 +10629,7 @@ var addRecord = function addRecord(player1Name, player2Name, bettingContent) {
             loser = player2Name;
           } else {
             winner = player2Name;
-            loser = $player1Name;
+            loser = player1Name;
           }
 
           _context2.next = 3;
