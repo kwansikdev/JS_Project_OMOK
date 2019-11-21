@@ -507,8 +507,9 @@ function restart() {
     $player2Panel.classList.toggle('active');
     $player1Panel.classList.toggle('active');
   }
-  state = 1;
 
+  // 초기화설정
+  state = 1;
   timerCloser.stopTimer();
   if (state === 1) timerCloser.timer1();
   else timerCloser.timer2();

@@ -1,0 +1,23 @@
+{
+  "name": "OMOK_Project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyeonggeun2/OMOK_Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hyeonggeun2/OMOK_Project/issues"
+  },
+  "homepage": "https://github.com/hyeonggeun2/OMOK_Project#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
