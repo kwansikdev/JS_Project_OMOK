@@ -31,6 +31,7 @@ const $victoryNo = document.querySelector('.victory-no');
 
 //  배열생성
 const SIZE = 19;
+let gameRecord = [];
 let state = 1;
 
 let stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
@@ -520,3 +521,34 @@ window.onload = render;
 $victoryNo.addEventListener('click', init);
 $victoryYes.addEventListener('click', restart);
 document.querySelector('.btn-new').addEventListener('click', init);
+
+// server.js와 연결
+// 시작 load(get) 해서 render //끝날 때 값을(post) 저장
+
+// const getRecord () => {
+
+// };
+
+// if (state === 1) {
+//   $victoryContent.innerHTML = `${$panelName1.textContent}가(이) 이겼닭!`;
+//   $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+// } else {
+//   $victoryContent.innerHTML = `${$panelName2.textContent}가(이) 이겼닭!`;
+//   $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+// }
+
+const async addRecord = () => {
+  let winner;
+  let loser;
+  const batting = $bettingContent.textContent;
+  if (state === 1) {
+    winner = $player1Name.textContent;
+    loser = $player2Name.textContent;
+  } else {
+    winner = $player2Name.textContent;
+    loser = $player1Name.textContent;
+  }
+  const res = awiat axios.post('/gameRecord', { order: gameRecord.length + 1, winner, loser, batting })
+  gameRecord = res.data;
+  recordRender();
+};
