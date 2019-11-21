@@ -10590,8 +10590,10 @@ var recordRender = function recordRender() {
     var order = _ref.order,
         winner = _ref.winner,
         loser = _ref.loser,
-        batting = _ref.batting;
-    html += "\n    <li class=\"order\">".concat(order, "</li>\n    <li class=\"winner\">").concat(winner, "</li>\n    <li class=\"loser\">").concat(loser, "</li>\n    <li class=\"batting\"> ").concat(batting, "</li>");
+        betting = _ref.betting;
+    html += "<li class=\"order\">".concat(order, ".\n      <span>").concat(winner, "(\uC2B9) vs ").concat(loser, "(\uD328)</span>\n      <span>  ").concat(betting, "</span>\n      </li>"); // <li class="winner">${winner}(승)</li>
+    // <li class="loser">${loser}(패)</li>
+    // <li class="batting"> ${batting}</li>`;
   });
   $gameRecord.innerHTML = html;
 };
@@ -10852,6 +10854,7 @@ function restart() {
   if (state === 1) toggleActive(); // 초기화설정
 
   state = 1;
+  $endingBettingContent.value = '';
   timerCloser.stopTimer();
   if (state === 1) timerCloser.timer1();else timerCloser.timer2();
   render();
@@ -10914,6 +10917,12 @@ $bettingList.onkeyup = function (_ref3) {
   popupclose();
   inputName();
   active();
+};
+
+$endingBettingContent.onkeyup = function (_ref4) {
+  var keyCode = _ref4.keyCode;
+  if (keyCode !== 13 || !$endingBettingConten.value.trim()) return;
+  restart();
 };
 
 window.onload = function () {
