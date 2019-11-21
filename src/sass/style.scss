@@ -18,16 +18,17 @@ body {
 header {
   margin: 0 auto;
   padding: 25px 0;
-  position: relative;
-  text-align: right;
+  // position: relative;
+  // text-align: center;
+  display: flex;
 }
 
 .start-popup {
   /* display: none; */
   background: rgba(255, 255, 255, 0.5);
   position: absolute;
-  top: 80px;
-  left: calc(50% - 380px);
+  top: 100px;
+  left: calc(20% - 50px);
   width: 760px;
   height: 760px;
   z-index: 2;
@@ -45,16 +46,23 @@ header {
   /* justify-content: space-between; */
   margin-top: 80px;
 }
+.betting-content {
+  // background: yellow;
 
-.rank-system {
-  background: rgba(255, 255, 255, 0.9);
+}
+.rank {
+  background: rgba(255, 255, 255, 0.5);
   position: absolute;
   width: 380px;
-  height: 380px;
-  top: 480px;
-  right: 350px;
+  height: 760px;
+  top: 100px;
+  right: calc(20% - 50px);
+  padding: 50px;
   border-radius: 75px;
   z-index: 2;
+  list-style-type: none;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
+  display: block;
 }
 
 .player1-name, .player2-name, .betting > input[type="text"] {
@@ -98,8 +106,9 @@ header {
 
 .btn-new {
   font-size: 40px !important;
+  position: absolute;
   width: 150px;
-  top: 0;
+  top: 25px;
   right: 20px;
   height: 50px;
   background-color: lightgrey;
@@ -132,6 +141,7 @@ main {
   border-spacing: 0px;
   text-align: center;
   vertical-align: center;
+  visibility: hidden;
 }
 
 .space td {
@@ -193,7 +203,7 @@ main {
 }
 
 .player-1-panel > .player-name, .player-2-panel > .player-name {
-  margin: 20px 0;
+  padding: 20px 0;
   font-size: 60px;
   text-align: center;
 }
@@ -214,7 +224,7 @@ main {
 }
 
 .betting-penalty1, .betting-penalty2 {
-  margin: 40px 0;
+  padding: 40px 0;
   text-align: center;
   font-size: 40px;
   visibility: hidden;
