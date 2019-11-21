@@ -1,0 +1,258 @@
+* {
+  box-sizing: border-box;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: 'Yeon Sung', cursive; }
+
+html {
+  position: relative; }
+
+body {
+  font-size: 25px;
+  margin-top: 30px;
+  background: url(/image/background.png); }
+
+header {
+  margin: 0 auto;
+  margin-bottom: 50px;
+  position: relative; }
+
+.start-popup {
+  /* display: none; */
+  background: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 80px;
+  left: calc(50% - 380px);
+  width: 760px;
+  height: 760px;
+  z-index: 2;
+  border-radius: 10%;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-size: 50px; }
+
+.start-popup p {
+  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  margin-top: 80px; }
+
+.player1-name, .player2-name, .betting > input[type="text"] {
+  font-size: 50px;
+  width: 500px;
+  height: 50px;
+  vertical-align: top;
+  text-align: center;
+  margin: 0 auto;
+  background-color: transparent; }
+
+.start-button {
+  width: 100px;
+  height: 50px;
+  font-size: 50px;
+  position: absolute;
+  left: 330px;
+  bottom: 50px;
+  background-color: transparent; }
+
+.overlay {
+  /* display: none; */
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.5); }
+
+.betting-content {
+  font-size: 50px;
+  height: 50px;
+  margin: 0 auto;
+  text-align: center;
+  width: 760px; }
+
+.btn-new {
+  position: absolute;
+  font-size: 40px !important;
+  width: 150px;
+  top: 0;
+  right: 20px;
+  height: 50px;
+  background-color: lightgrey;
+  color: white;
+  font-size: 20px;
+  border: none;
+  border-radius: 20px; }
+
+.x-block {
+  display: flex;
+  justify-content: center; }
+
+.fa-w-11 {
+  align-items: center; }
+
+main {
+  display: flex;
+  /* padding: 0 20px; */ }
+
+.space {
+  margin: 0 auto;
+  background: url(/image/omok_old_photo.jpg) no-repeat;
+  background-size: contain;
+  width: 764px;
+  height: 764px;
+  border-spacing: 0px;
+  text-align: center;
+  vertical-align: center; }
+
+.space td {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  vertical-align: top;
+  line-height: 35px; }
+
+.space-box:hover {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  box-shadow: 5px 5px 0 0 rgba(226, 11, 11, 0.5), -5px -5px 0 0 rgba(226, 11, 11, 0.5);
+  border-radius: 20%;
+  /* background: url(/image/black-stone.png); */ }
+
+.black-circle {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid #000; */
+  /* border-radius: 20%; */
+  background: url(/image/black-stone.png); }
+
+.white-circle {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid #fff;
+  border-radius: 20%; */
+  background: url(/image/white-stone.png); }
+
+.fa-times {
+  color: red;
+  font-size: 40px; }
+
+.player-1-panel {
+  width: 200px;
+  height: 760px;
+  background-color: #dedddb;
+  /* #003458; */
+  color: white;
+  visibility: visible; }
+
+.player-2-panel {
+  width: 200px;
+  height: 760px;
+  background-color: #bcb4b2;
+  color: white;
+  visibility: visible; }
+
+.player-1-panel > .player-name, .player-2-panel > .player-name {
+  margin: 20px 0;
+  font-size: 60px;
+  text-align: center; }
+
+.player-timer1, .player-timer2 {
+  margin: 40px 0;
+  text-align: center;
+  font-size: 40px;
+  visibility: hidden; }
+
+.active .player-timer1 {
+  visibility: visible; }
+
+.active .player-timer2 {
+  visibility: visible; }
+
+.betting-penalty1, .betting-penalty2 {
+  margin: 40px 0;
+  text-align: center;
+  font-size: 40px;
+  visibility: hidden; }
+
+.active .betting-penalty1 {
+  visibility: visible; }
+
+.active .betting-penalty2 {
+  visibility: visible; }
+
+.active {
+  background-color: #660000; }
+
+.active .player-name {
+  margin: 20px 0;
+  font-size: 60px;
+  visibility: visible;
+  /* font-weight: 500; */ }
+
+.ending-popup {
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  width: 760px;
+  height: 760px;
+  border-spacing: 0px;
+  text-align: center;
+  vertical-align: center;
+  z-index: 2;
+  left: calc(50% - 380px);
+  visibility: hidden;
+  border-radius: 10%;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3); }
+
+.ending-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; }
+
+.victory-content {
+  font-size: 50px;
+  margin-top: 80px; }
+
+.ending-content .more {
+  font-size: 40px;
+  display: block;
+  margin-top: 50px; }
+
+.ending-betting {
+  display: block;
+  margin-top: 50px; }
+
+.ending-betting-content {
+  font-size: 40px;
+  /* font-size: 50px; */
+  width: 500px;
+  height: 50px;
+  /* vertical-align: top; */
+  text-align: center;
+  margin: 0 auto;
+  background-color: transparent; }
+
+.victory-yes, .victory-no {
+  font-size: 40px;
+  margin: 150px 30px 0 30px;
+  width: 200px;
+  height: 50px;
+  border-radius: 25px;
+  background: #000;
+  color: #fff; }
+
+footer {
+  font-size: 15px;
+  margin: 10px auto;
+  text-align: center; }
+
+
+/*# sourceMappingURL=style.css.map*/

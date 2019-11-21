@@ -6,13 +6,13 @@ let gameRecode = [];
 app.use(express.static('public'));
 app.use(express.json()); // for parsing application/json
 
-app.get('/todos', (req, res) => {
+app.get('/gameRecode', (req, res) => {
   res.send(gameRecode);
 });
 
-app.post('/todos', (req, res) => {
+app.post('/gameRecode', (req, res) => {
   console.log(req.body);
-  gameRecode = [req.body, ...gameRecode];
+  gameRecode = [...gameRecode, req.body];
   res.send(gameRecode);
 });
 
