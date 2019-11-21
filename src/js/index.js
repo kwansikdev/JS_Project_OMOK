@@ -66,7 +66,7 @@ const checkRightDiagonal = (id, checkNum) => {
     for (let i = 1; i <= 4; i++) {
       if (position(id, i, i) === state && position(id, 1, 1) !== 2) count++; // 오른쪽 아래 방향에 3개가 다 있는 경우
       if (i <= 3 && position(id, i, i) === 2) count--;
-    } 
+    }
     if (count === 4 && position(id, -1, -1) !== state && ((position(id, 4, 4) !== 2 || position(id, -1, -1) !== 2) && (position(id, 5, 5) !== 2 || position(id, -1, -1) !== 2))) return true;
     else if (position(id, -1, -1) !== state && position(id, 1, 1) !== state) return false; // 양쪽이 비었을 경우 안된다.
     else if (position(id, -1, -1) === state && position(id, 1, 1) === state) { // 양쪽이 둘다 차있을 경우
@@ -283,7 +283,8 @@ const checkVertical = (id, checkNum) => {
   return count;
 };
 
-
+// 함수
+// 3x3, 4x4 체크
 const checkNone = (id) => {
   const [row, col] = id.split(',');
   let checkArr = [];
@@ -345,6 +346,24 @@ const render = () => {
   $space.innerHTML = html;
 };
 
+// POPUP UI
+const popupclose = () => {
+  $startPopup.style.display = 'none';
+  $overlay.style.display = 'none';
+};
+
+const inputName = () => {
+  const player1Name = $player1Name.value.trim();
+  const player2Name = $player2Name.value.trim();
+  const bettingContent = $bettingList.value.trim();
+
+  $panelName1.textContent = player1Name;
+  $panelName2.textContent = player2Name;
+  $bettingContent.textContent = bettingContent;
+  $player2Panel.classList.add('active');
+};
+
+// 엔딩팝업
 const endingPopup = () => {
   $endingPopup.style.visibility = 'visible';
   if (state === 1) {
@@ -353,6 +372,38 @@ const endingPopup = () => {
   } else {
     $victoryContent.innerHTML = `${$panelName2.textContent}가(이) 이겼닭!`;
     $more.innerHTML = `${$panelName1.textContent} , ${$panelName2.textContent} 한판 더?`;
+  }
+};
+
+// 턴 토글
+const toggleActive = () => {
+  $player2Panel.classList.toggle('active');
+  $player1Panel.classList.toggle('active');
+};
+
+// 승리조건확인
+const checkVictory = (id) => {
+  let checkArr = []; // 동시에 5가 2개가 되었을 때 하나만 출력해주기 위해 배열에 넣어주었음
+  checkArr.push(checkRightDiagonal(id, 5));
+  checkArr.push(checkLeftDiagonal(id, 5));
+  checkArr.push(checkHorizon(id, 5));
+  checkArr.push(checkVertical(id, 5));
+
+  checkArr = checkArr.map((count) => {
+    if (state === 2 && count >= 5) count = 5; // 흰색이긴거
+    return count;
+  });
+
+  if (checkArr.indexOf(5) !== -1) {
+    if (state === 1) {
+      $player2Panel.classList.toggle('active');
+      $player1Panel.classList.toggle('active');
+    } else {
+      $player2Panel.classList.toggle('active');
+      $player1Panel.classList.toggle('active');
+    }
+
+    return endingPopup();
   }
 };
 
@@ -400,37 +451,45 @@ const timerCloser = (() => {
 
 // 턴 활성화
 function active() {
-  $player2Panel.classList.toggle('active');
-  $player1Panel.classList.toggle('active');
+  toggleActive()
   if (state === 1) timerCloser.timer1();
   else timerCloser.timer2();
 }
 
-const checkVictory = (id) => {
-  let checkArr = []; // 동시에 5가 2개가 되었을 때 하나만 출력해주기 위해 배열에 넣어주었음
-  checkArr.push(checkRightDiagonal(id, 5));
-  checkArr.push(checkLeftDiagonal(id, 5));
-  checkArr.push(checkHorizon(id, 5));
-  checkArr.push(checkVertical(id, 5));
+// 재시작
+function restart() {
+  stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
 
-  checkArr = checkArr.map((count) => {
-    if (state === 2 && count >= 5) count = 5; // 흰색이긴거
-    return count;
-  });
+  $endingPopup.style.visibility = 'hidden';
+  $bettingContent.textContent = $endingBettingContent.value.trim();
 
-  if (checkArr.indexOf(5) !== -1) {
-    if (state === 1) {
-      $player2Panel.classList.toggle('active');
-      $player1Panel.classList.toggle('active');
-    } else {
-      $player2Panel.classList.toggle('active');
-      $player1Panel.classList.toggle('active');
-    }
+  let name1 = '';
+  let name2 = '';
 
-    return endingPopup();
-  }
-};
+  name1 = $panelName1.textContent;
+  name2 = $panelName2.textContent;
 
+  $endingPopup.style.visibility = 'hidden';
+  $panelName2.textContent = name1;
+  $panelName1.textContent = name2;
+
+  if (state === 1) toggleActive();
+
+  // 초기화설정
+  state = 1;
+  timerCloser.stopTimer();
+  if (state === 1) timerCloser.timer1();
+  else timerCloser.timer2();
+  render();
+}
+
+// 초기화(처음으로)
+function init() {
+  window.location.reload();
+}
+
+//이벤트
+// 턴에 의한 수놓기 이벤트
 $space.onclick = ({ target }) => {
   const [row, col] = target.id.split(',');
   if (!target.classList.contains('space-box') || target.innerHTML) return;
@@ -452,69 +511,26 @@ $space.onclick = ({ target }) => {
   render();
 };
 
-// POPUP UI
-const popupclose = () => {
-  $startPopup.style.display = 'none';
-  $overlay.style.display = 'none';
-};
-
-const inputName = () => {
-  const player1Name = $player1Name.value.trim();
-  const player2Name = $player2Name.value.trim();
-  const bettingContent = $bettingList.value.trim();
-
-  $panelName1.textContent = player1Name;
-  $panelName2.textContent = player2Name;
-  $bettingContent.textContent = bettingContent;
-  $player2Panel.classList.add('active');
-};
-
+// 시작 버튼에 의한 이벤트
 $startBtn.onclick = () => {
-  if (!$player1Name.value.trim() || !$player2Name.value.trim()) return;
+  if (!$player1Name.value.trim() || !$player2Name.value.trim()) {
+    $player1Name.value = 'Player1';
+    $player2Name.value = 'Player2';
+    // return;
+  }
+
   popupclose();
   inputName();
   active();
 };
 
+// 내기 입력란에 엔터에 의한 이벤트
 $bettingList.onkeyup = ({ keyCode }) => {
   if (keyCode !== 13 || !$bettingList.value.trim()) return;
   popupclose();
   inputName();
   active();
 };
-
-function init() {
-  window.location.reload();
-}
-
-function restart() {
-  stateArr = Array(SIZE).fill(null).map(() => Array(SIZE).fill(0));
-
-  $endingPopup.style.visibility = 'hidden';
-  $bettingContent.textContent = $endingBettingContent.value.trim();
-
-  let name1 = '';
-  let name2 = '';
-
-  name1 = $panelName1.textContent;
-  name2 = $panelName2.textContent;
-
-  $endingPopup.style.visibility = 'hidden';
-  $panelName2.textContent = name1;
-  $panelName1.textContent = name2;
-
-  if (state === 1) {
-    $player2Panel.classList.toggle('active');
-    $player1Panel.classList.toggle('active');
-  }
-
-  // 초기화설정
-  state = 1;
-  timerCloser.stopTimer();
-  if (state === 1) timerCloser.timer1();
-  else timerCloser.timer2();
-  render();
-}
 
 window.onload = render;
 $victoryNo.addEventListener('click', init);
