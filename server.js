@@ -16,6 +16,7 @@ app.get('/gameRecord', (req, res) => {
 
 app.post('/gameRecord', (req, res) => {
   console.log(req.body);
+  if (req.body.betting === '') req.body.betting = '내기 없음';
   gameRecord = [...gameRecord, req.body];
   res.send(gameRecord);
 });

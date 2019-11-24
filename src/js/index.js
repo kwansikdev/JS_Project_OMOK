@@ -310,8 +310,8 @@ const addRecord = async (player1Name, player2Name, bettingContent) => {
     winner = player1Name;
     loser = player2Name;
   } else {
-    winner = player2Name;
-    loser = player1Name;
+    winner = player1Name;
+    loser = player2Name;
   }
   const res = await axios.post('/gameRecord', { order: gameRecord.length + 1, winner, loser, betting: bettingContent });
   gameRecord = res.data;
@@ -553,7 +553,7 @@ $space.onclick = ({ target }) => {
 
 // 시작 버튼에 의한 이벤트
 $startBtn.onclick = () => {
-  if (!$player1Name.value.trim() || !$player2Name.value.trim()) {
+  if (!$player1Name.value.trim() && !$player2Name.value.trim()) {
     $player1Name.value = 'Player1';
     $player2Name.value = 'Player2';
     // return;
